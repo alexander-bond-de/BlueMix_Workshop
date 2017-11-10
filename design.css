@@ -1,3 +1,8 @@
 body {
     background-color: lightblue;
 }
+
+.test {
+	 background-image: url("public/images/spaceBackground");
+	 text-align: 50px;
+}
