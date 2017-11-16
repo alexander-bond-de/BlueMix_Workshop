@@ -3,6 +3,6 @@ body {
 }
 
 .test {
-	 background-image: url("public/images/spaceBackground");
-	 text-align: 50px;
+	 color: #00FF00;
+	 background-image: url("/public/images/spaceBackground");
 }
