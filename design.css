@@ -4,9 +4,11 @@ head{
 
 body {
 
+    /* doesn't seem to work with bluemix
     font-family: myFirstFont;
     src: url("Public/ElectroShackle.otf");
-
+    */
+  
     margin-top: 5%;
     text-align: center;
     color: #fff;
