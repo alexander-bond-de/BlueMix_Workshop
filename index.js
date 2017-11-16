@@ -3,6 +3,8 @@ var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
+app.use(express.static('public'));
+
 var clients = [];	// list of clients currently connected
 
 app.get('/', function(req, res){
