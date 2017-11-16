@@ -1,7 +1,8 @@
 <!-- index.html - Alexander Bond 307659 - Jonathan Ashton 307660 -->
 <!doctype html>
 <html>
-  <head>
+
+<head>
     <title>Chatroom</title>
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -41,7 +42,7 @@
 
     // when form is submitted, send message through socket and clear form
     $('form').submit(function(){         
-      socket.emit('chat message', $('#m').val());
+      socket.emit('chat message', $('#m').val())
       $('#m').val('');
       return false;
     });
