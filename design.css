@@ -1,46 +1,45 @@
-head{
-
-}
+ h1{
+    z-index: 1;
+    text-align: center;
+    border-radius: 25px;
+    font-size: 1.6em;
+    color: #fff;
+    padding: 2em;
+  }
 
 body {
-
-    font-family: myFirstFont;
-    src: url("Public/ElectroShackle.otf");
-
-    margin-top: 5%;
+    margin-top: 2%;
     text-align: center;
-    color: #fff;
-
+    color: #f00;
     background-image: url("Public/Images/spaceBackground.jpg");
     background-size: 100%;
     background-repeat: no-repeat;
     background-attachment: fixed;
+  }
+
+#butt {
+    border: none;
+    color: white;
+    border-radius: 25px;
+    background-image: url("Public/Images/spaceButton.jpg");
 }
 
-
-
-.wrapper {
+#m{
   border-radius: 25px;
-  font-size: 1.6em;
-  color: #000;
-  padding: 2em;
-  margin: 0 auto;
-  width: 900px;
-  height: 2000px;
-  /* background-color: #00f;*/
-  background-image: url("https://www.xmple.com/wallpaper/white-grey-gradient-linear-7680x4320-c2-ffffff-c0c0c0-a-135-f-14.svg");
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: 100%;
 }
 
-h1 {
-    /* font-size: 62.5%; */
+ .wrapper {
+    z-index: 1;
     text-align: center;
-    color: #fff;
-}
-
-.test {
-  text-align: center;
-	 color: #fff;
-}
+    border-radius: 25px;
+    font-size: 1.6em;
+    color: #000;
+    padding: 2em;
+    margin: 0 auto;
+    width: 900px;
+    height: 2000px;
+    background-color: #fff;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100%;
+  }

@@ -4,6 +4,9 @@
 
 <head>
 
+  <link rel="stylesheet" type="text/css" href="design.css">
+  <link href="Public/ElectroShackle.otf" rel="stylesheet" type="text/css">
+
     <title>Chatroom</title>
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -16,7 +19,13 @@
       #messages li:nth-child(odd) { background: #eee; }
     </style>
   </head>
-  
+
+  <h1>   Welcome to the Chatroom!! <br></br>  </h1>
+
+  <div class="wrapper">
+    You're now chatting. Say hi!
+	</div>
+
   <!-- Javascript -->
   <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
   <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
@@ -26,23 +35,26 @@
 
   // get username from incoming user
   function getUsername() {
+    setTimeout(function(){
+
     var person = prompt("Please enter chat name", "Anon");
     person = person.replace(/ /g, "_");
     if (person == null || person == "")
       person = "Anon";
 
     // update title
-    document.title = ("Chatroom - "+person);
+  document.title = ("Chatroom - "+person);
 
     // announce connection to chat server
     socket.emit('user connected', person);
+  }, 500);
   };
 
   // socket.io functionality
   $(function () {
 
     // when form is submitted, send message through socket and clear form
-    $('form').submit(function(){         
+    $('form').submit(function(){
       socket.emit('chat message', $('#m').val())
       $('#m').val('');
       return false;
@@ -54,15 +66,14 @@
     });
 
   });
-
-
 </script>
 
 
   <body onload = "getUsername()">
+    <style="position: fixed; z-index: 3;"
     <ul id="messages"></ul>
-    <form action="">
-      <input id="m" autocomplete="off" /><button>Send</button>
+    <form class="inputBar" action="">
+      <input id="m" autocomplete="off" /><button id="butt">Send</button>
     </form>
   </body>
 </html>
