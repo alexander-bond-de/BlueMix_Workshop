@@ -1,7 +1,7 @@
 // index.js - Alexander Bond 307659 - Jonathan Ashton 307660
 var app = require('express')();
 var http = require('http').Server(app);
-var io = require('socket.io')(http);
+var io = require('socket.io').listen(http);
 
 app.use(express.static('public'));
 
