@@ -1,9 +1,7 @@
 // index.js - Alexander Bond 307659 - Jonathan Ashton 307660
-var express = require('express');
-var http = require('http');
-var app = express();
-var server = http.createServer(app);
-var io = require('socket.io').listen(server);
+var app = require('express')();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 
 var clients = [];	// list of clients currently connected
 
