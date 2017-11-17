@@ -1,12 +1,13 @@
 {
 
-  "name": "socket-chatroom",
-  "version": "0.0.1",
-  "description": "my first socket.io app",
-  "dependencies": {
-    "express": "^4.16.2",
-    "socket.io": "^2.0.4"
-  }
-  "scripts": {
-  	"start" : "node index.js"
- }}
+	"name": "socket-chatroom",
+	"version": "0.0.1",
+	"description": "my first socket.io app",
+	"scripts": {
+		"start" : "node index.js"
+	}
+	"dependencies": {
+		"express": "^4.16.2",
+		"socket.io": "^2.0.4"
+	}
+}
