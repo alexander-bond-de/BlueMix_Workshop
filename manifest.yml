@@ -2,4 +2,4 @@ applications:
 - name: compassionate-haibt
   memory: 128M
   host: compassionate-haibt
-  buildpack: staticfile_buildpack
+  buildpack: nodejs_buildpack
