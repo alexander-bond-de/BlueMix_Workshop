@@ -9,7 +9,7 @@ var io = require('socket.io')(http);
 //var http = require('http');
 //var socketIO = require('socket.io');
 
-app.use(express.static('public'));
+app.use(express.static('Public'));
 
 var clients = [];	// list of clients currently connected
 
@@ -111,6 +111,6 @@ io.on('connection', function(socket){
 // begin listening
 let port = process.env.PORT || process.env.VCAP_APP_PORT || 3000;
 
-app.listen(port, () =>  {
+http.listen(port, () =>  {
 	console.log('Server running on port: %d', port);
 });
