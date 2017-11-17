@@ -2,9 +2,13 @@
 'use strict';
 
 var express = require('express');
-var app = express();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
+var app     = express();
+var server  = require('http').createServer(app);
+var io      = require('socket.io').listen(server);
+
+//var app = express();
+//var http = require('http').Server(app);
+//var io = require('socket.io')(http);
 //http.listen(process.env.PORT || 3000);
 //var http = require('http');
 //var socketIO = require('socket.io');
@@ -111,6 +115,6 @@ io.on('connection', function(socket){
 // begin listening
 let port = process.env.PORT || process.env.VCAP_APP_PORT || 3000;
 
-http.listen(port, () =>  {
+server.listen(port, () =>  {
 	console.log('Server running on port: %d', port);
 });
