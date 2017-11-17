@@ -1,11 +1,14 @@
 // index.js - Alexander Bond 307659 - Jonathan Ashton 307660
 var express = require('express')
 var app = express();
-var http = require('http');
-var socketIO = require('socket.io');
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+//http.listen(process.env.PORT || 3000);
+//var http = require('http');
+//var socketIO = require('socket.io');
 
 
-app.use(express.static('public'));
+//app.use(express.static('public'));
 
 var clients = [];	// list of clients currently connected
 
@@ -13,9 +16,9 @@ app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
 
-var server = http.Server(app);
+//var server = http.Server(app);
 
-var io = socketIO(server);
+//var io = socketIO(server);
 
 io.on('connection', function(socket){
 
@@ -105,6 +108,6 @@ io.on('connection', function(socket){
 });
 
 // begin listening
-server.listen((process.env.PORT || process.env.VCAP_APP_PORT || 3000), function(){
+http.listen((process.env.PORT || process.env.VCAP_APP_PORT || 3000), function(){
   console.log('listening on *:3000');
 });
