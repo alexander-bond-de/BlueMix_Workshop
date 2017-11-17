@@ -1,10 +1,10 @@
 
 'use strict';
 
-var express = require('express');
-var app     = express();
-var server  = require('http').createServer(app);
-var io      = require('socket.io').listen(server);
+//var express = require('express');
+var app     = require('express');
+var server  = require('http').Server(app);
+var io      = require('socket.io')(server);
 
 //var app = express();
 //var http = require('http').Server(app);
@@ -13,7 +13,7 @@ var io      = require('socket.io').listen(server);
 //var http = require('http');
 //var socketIO = require('socket.io');
 
-app.use(express.static('Public'));
+//app.use(express.static('Public'));
 
 var clients = [];	// list of clients currently connected
 
@@ -113,8 +113,8 @@ io.on('connection', function(socket){
 });
 
 // begin listening
-let port = process.env.PORT || process.env.VCAP_APP_PORT || 3000;
+let port = process.env.PORT || process.env.VCAP_APP_PORT || 8080;
 
 server.listen(port, () =>  {
-	console.log('Server running on port: %d', port);
+	console.log('Server running on port: %d'+port);
 });
