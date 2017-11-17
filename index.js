@@ -1,4 +1,6 @@
-// index.js - Alexander Bond 307659 - Jonathan Ashton 307660
+
+'use strict';
+
 var express = require('express')
 var app = express();
 var http = require('http').Server(app);
@@ -7,8 +9,7 @@ var io = require('socket.io')(http);
 //var http = require('http');
 //var socketIO = require('socket.io');
 
-
-//app.use(express.static('public'));
+app.use(express.static('public'));
 
 var clients = [];	// list of clients currently connected
 
@@ -108,6 +109,8 @@ io.on('connection', function(socket){
 });
 
 // begin listening
-http.listen((process.env.PORT || process.env.VCAP_APP_PORT || 3000), function(){
-  console.log('listening on *:3000');
+let port = process.env.PORT || process.env.VCAP_APP_PORT || 3000;
+
+app.listen(port, () =>  {
+	console.log('Server running on port: %d', port);
 });
