@@ -1,0 +1,7 @@
+applications:
+- name: exercise-3-chat-project
+  memory: 256M
+  instances: 1
+  host: exercise-3-chat-project
+  uildpack: nodejs_buildpack
+
