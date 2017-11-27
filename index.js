@@ -113,7 +113,7 @@ io.on('connection', function(socket){
 });
 
 // begin listening
-let port = process.env.PORT || process.env.VCAP_APP_PORT || 8080;
+let port = process.env.PORT || process.env.VCAP_APP_PORT || 3000;
 
 server.listen(port, () =>  {
 	console.log('Server running on port: %d'+port);
