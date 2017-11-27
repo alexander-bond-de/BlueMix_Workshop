@@ -1,6 +1,6 @@
 applications:
-- name: compassionate-haibt
+- name: exercise-3-chat-project
   memory: 512M
   instances: 1
-  host: compassionate-haibt
+  host: exercise-3-chat-project
   buildpack: nodejs_buildpack
