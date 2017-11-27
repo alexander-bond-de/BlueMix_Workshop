@@ -1,6 +1,6 @@
 applications:
 - name: exercise-3-chat-project
-  memory: 512M
+  memory: 256M
   instances: 1
   host: exercise-3-chat-project
-  buildpack: https://github.com/cloudfoundry/buildpack-nodejs#v1.6.4
+  buildpack: nodejs_buildpack
