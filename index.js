@@ -1,7 +1,7 @@
 
 'use strict';
 
-var express = require('express');
+//var express = require('express');
 var app     = require('express')();
 var server  = require('http').Server(app);
 var io      = require('socket.io')(server);
@@ -17,12 +17,9 @@ var io      = require('socket.io')(server);
 
 var clients = [];	// list of clients currently connected
 
-/*
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
-*/
-app.use(express.static(path.join(__dirname, 'public')));
 
 //var server = http.Server(app);
 
