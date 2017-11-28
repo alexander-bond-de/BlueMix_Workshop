@@ -13,7 +13,7 @@ body {
     margin-top: 2%;
     text-align: center;
     color: #f00;
-    background-image: url("Public/Images/spaceBackground.jpg");
+    background-image: url("Images/spaceBackground.jpg");
     background-size: 100%;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -23,7 +23,7 @@ body {
     border: none;
     color: white;
     border-radius: 25px;
-    background-image: url("Public/Images/spaceButton.jpg");
+    background-image: url("Images/spaceButton.jpg");
 }
 
 #m{
