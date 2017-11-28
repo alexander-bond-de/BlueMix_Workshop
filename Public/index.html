@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<!-- index.html - Alexander Bond 307659 - Jonathan Ashton 307660 -->
+
+<head>
+
+  <link rel="stylesheet" type="text/css" href="design.css">
+  <!-- <link href="Public/ElectroShackle.otf" rel="stylesheet" type="text/css"> -->
+
+    <title>Chatroom</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font: 13px Helvetica, Arial; }
+      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+      #messages { list-style-type: none; margin: 0; padding: 0; }
+      #messages li { padding: 5px 10px; }
+      #messages li:nth-child(odd) { background: #eee; }
+    </style>
+    <link rel="stylesheet" type="text/css" href="/design.css">
+  </head>
+
+  <h1>   Welcome to the Chatroom!! <br></br>  </h1>
+
+  <div class="wrapper">
+    You're now chatting. Say hi!
+	</div>
+
+  <!-- Javascript -->
+  <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+  <script src='/socket.io/socket.io.js'></script>
+  <script>
+
+  var socket = io.connect();  // socket connection to the server
+
+  // get username from incoming user
+  function getUsername() {
+    setTimeout(function(){
+
+    var person = prompt("Please enter chat name", "Anon");
+    if (person == null || person == "")
+      person = "Anon";#
+    else
+      person = person.replace(/ /g, "_");
+
+    // update title
+  document.title = ("Chatroom - "+person);
+
+    // announce connection to chat server
+    socket.emit('user connected', person);
+  }, 500);
+  };
+
+  // socket.io functionality
+  $(function () {
+
+    // when form is submitted, send message through socket and clear form
+    $('form').submit(function(){
+      socket.emit('chat message', $('#m').val())
+      $('#m').val('');
+      return false;
+    });
+
+    // when receiving a message, add it to the HTML list
+    socket.on('chat message', function(msg){
+      $('#messages').append($('<li>').text(msg));
+    });
+
+  });
+</script>
+
+
+  <body onload = "getUsername()">
+    <style="position: fixed; z-index: 3;"
+    <ul id="messages"></ul>
+    <form class="inputBar" action="">
+      <input id="m" autocomplete="off" /><button id="butt">Send</button>
+    </form>
+  </body>
+</html>
