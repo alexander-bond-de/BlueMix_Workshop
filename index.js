@@ -61,7 +61,7 @@ io.on('connection', function(socket){
 
   	// conform a user exisits within the database, then add them to chatroom
   	socket.on('confirm details', function(user_name, user_password){
-  		//var result = searchUser(user_name, user_password);
+  		var result = searchUser(user_name, user_password);
 
   		// add the user to the chatroom
   		/*
@@ -70,7 +70,7 @@ io.on('connection', function(socket){
   		io.emit('command message', (msg+' has connected'));
 		console.log(msg+" has connected");
 		*/
-		io.emit('command message', "boo");
+		io.emit('command message', result);
   	});
 
 	// send chat messages to everyone
@@ -167,7 +167,11 @@ function addUser(socket) {
 
 function searchUser(user_name, user_password) {
 	var query = {name : user_name, password : user_password};
-	return mongodb.collection("users").find(query);
+	var results;
+	mongodb.collection("users").find(query).toArray(function(err, result) {
+    	results = result;
+  	});
+  	return results;
 };
 
 // start server listening on port
