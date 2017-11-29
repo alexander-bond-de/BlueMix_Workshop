@@ -167,26 +167,22 @@ function addUser(socket) {
 
 function searchUser(user_name, user_password) {
 	var query = {name : user_name, password : user_password};
-	var cursor;
+	var exists;
 
 	//var cursorArray = mongodb.collection("users").find(query).toArray();
 
 	
 	var cursorArray = mongodb.collection("users").find(query).toArray(function(err, result) {
 		if (err) throw err;
-		console.log("-- SEARCH --"+query["name"]);
-		console.log(result);
-		console.log(result.length);
-		console.log("-- RESULT --"+result["name"]);
+		//console.log("-- SEARCH --"+query["name"]);
+		//console.log(result);
+		//console.log(result.length);
+		//console.log("-- RESULT --"+result["name"]);
+
+		exists = (result.length > 0 ? true : false)
   	});
-  	
-
-  	//console.log("-- CURSORARRAY LENGTH --"+cursorArray.length);
-
-	//if (results != null)
-  	//	return (results.length > 0 ? true : false);
-  	//else
-  		return ("ERROR");
+  
+  	return (exists);
 };
 
 // start server listening on port
