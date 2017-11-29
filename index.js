@@ -61,7 +61,7 @@ io.on('connection', function(socket){
 
   	// conform a user exisits within the database, then add them to chatroom
   	socket.on('confirm details', function(user_name, user_password){
-  		var result = searchUser(user_name, user_password);
+  		//var result = searchUser(user_name, user_password);
 
   		// add the user to the chatroom
   		/*
@@ -70,7 +70,7 @@ io.on('connection', function(socket){
   		io.emit('command message', (msg+' has connected'));
 		console.log(msg+" has connected");
 		*/
-		io.emit('command message', result);
+		io.emit('command message', "boo");
   	});
 
 	// send chat messages to everyone

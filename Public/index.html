@@ -44,7 +44,7 @@
 
       // confirm user's login details before alowing them to chat
       $('#loginForm').submit(function(){
-        socket.emit('confirm details' , $('#user_name').val(), $('#user_password').val());
+        socket.emit('confirm details', $('#user_name').val(), $('#user_password').val());
         $('#user_name').val('');
         $('#user_password').val('');
         return false;
