@@ -57,6 +57,17 @@
         return false;
       });
 
+      // receiving login confirmation
+      socket.on('confirm details', function(valid){
+        if (valid) {
+          // enable all fields
+          $('#wrapper').css("background-color", "#fff");
+          $('#message').css("background-color", "#fff");
+          $('#message').disabled = false;
+          $('#message').disabled = false;
+        }
+      });
+
       // when receiving information, add it to the HTML list
       socket.on('command message', function(msg){
         var html = "<li><div class=\"messageInfo\">"+msg+"</div>";
@@ -123,10 +134,11 @@
         <form action="">
           <br>
           <h2>Login</h2>
-          <input type="text" id="user_name" value="Username"/><br>
-          <input type="password" id="user_password" value="Password"/><br>
-          <button>Login</button>
+          <input type="text" id="user_name" placeholder="Username"/><br>
+          <input type="password" id="user_password" placeholder="Password"/><br>
+          <button type="button">Login</button>
         </form>
+        <div>helpbox</div>
       </div>
 
     </div>
@@ -139,7 +151,8 @@
     </div>
 
     <form id="inputBar" action="">
-      <input id="message" autocomplete="off" /><button>Send</button>
+      <input id="message" autocomplete="off" disabled/>
+      <button id="messageButton" disabled>Send</button>
     </form>
   </body>
 </html>

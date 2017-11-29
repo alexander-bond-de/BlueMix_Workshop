@@ -61,12 +61,12 @@ io.on('connection', function(socket){
 
   	// conform a user exisits within the database, then add them to chatroom
   	socket.on('confirm details', function(user_name, user_password){
-  		//var result = searchUser(user_name, user_password);
 
-  		// add the user to the chatroom
+  		// create JSON object
   		var query = {name : user_name, password : user_password};
 		var exists;
 
+		// confirm that user exists within database
 		var cursorArray = mongodb.collection("users").find(query).toArray(function(err, result) {
 			if (err) throw err;
 			console.log("-- RESULT --"+result.length);
@@ -74,7 +74,16 @@ io.on('connection', function(socket){
 			console.log("-- RESULT --"+exists);
 
 			console.log(exists);
-			io.emit('command message', exists);
+			io.emit('confirm details', exists);
+
+			if (exists) {
+				socket.user_name = user_name;
+  				clients.push(socket);
+  				io.emit('command message', (user_name+' has connected'));
+				console.log(user_name+" has connected");
+
+				addUser(socket);
+			}
 		});
   	});
 
@@ -161,6 +170,8 @@ io.on('connection', function(socket){
 		console.log(socket.user_name + ' disconnected');
 	});
 });
+
+
 
 function addUser(socket) {
 	try {
