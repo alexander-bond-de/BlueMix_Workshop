@@ -24,7 +24,7 @@ var mongodb;														// used as a global variable to hold link to mongoDB c
 // --= mongoDB functionality =--
 
 // connect to the mongoDB server
-MongoClient.connect(credentials.uri, {
+mongoClient.connect(credentials.uri, {
         mongos: {
             ssl: true,
             sslValidate: true,
