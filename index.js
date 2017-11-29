@@ -37,7 +37,7 @@ mongoClient.connect(credentials.uri, {
         if (err)
             console.log(err);
         else 
-            mongodb = db;
+            mongodb = db.db("userData");;
     }
 );
 
@@ -55,6 +55,16 @@ io.on('connection', function(socket){
   		clients.push(socket);
   		io.emit('command message', (msg+' has connected'));
 		console.log(msg+" has connected");
+
+		// log user data into database
+		mongodb.collection("users").insertOne( {name: msg, password: "test"}, 
+		    function(error, result) {
+		      if (error) {
+		        response.status(500).send(error);
+		      } else {
+		        response.send(result);
+		      }
+    	});
   	});
 
 	// send chat messages to everyone
