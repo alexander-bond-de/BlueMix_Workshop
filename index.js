@@ -176,7 +176,7 @@ function searchUser(user_name, user_password) {
 		if (err) throw err;
 		console.log("-- SEARCH --"+query["name"]);
 		console.log(result);
-		console.log(jQuery.isEmptyObject(result));
+		console.log(result.length);
 		console.log("-- RESULT --"+result["name"]);
   	});
   	
