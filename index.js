@@ -61,8 +61,7 @@ io.on('connection', function(socket){
 
   	// conform a user exisits within the database, then add them to chatroom
   	socket.on('confirm details', function(user_name, user_password){
-  		var query = {name : user_name, password : user_password};
-  		var result = mongodb.collection("users").find(query);
+  		var result = searchUser(user_name, user_password);
 
   		// add the user to the chatroom
   		/*
@@ -158,13 +157,17 @@ io.on('connection', function(socket){
 	});
 });
 
-function addUser(socket)
-{
+function addUser(socket) {
 	try {
    		mongodb.collection("users").insertOne({name: socket.user_name, password: "test"}) 
 	} catch (e) {
    		print (e);
 	};
+};
+
+function searchUser(user_name, user_password) {
+	var query = {name : user_name, password : user_password};
+	return mongodb.collection("users").find(query);
 };
 
 // start server listening on port
