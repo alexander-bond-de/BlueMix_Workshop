@@ -61,17 +61,21 @@ io.on('connection', function(socket){
 
   	// conform a user exisits within the database, then add them to chatroom
   	socket.on('confirm details', function(user_name, user_password){
-  		var result = searchUser(user_name, user_password);
+  		//var result = searchUser(user_name, user_password);
 
   		// add the user to the chatroom
-  		/*
-  		socket.user_name = msg;
-  		clients.push(socket);
-  		io.emit('command message', (msg+' has connected'));
-		console.log(msg+" has connected");
-		*/
-		console.log(result);
-		io.emit('command message', result);
+  		var query = {name : user_name, password : user_password};
+		var exists;
+
+		var cursorArray = mongodb.collection("users").find(query).toArray(function(err, result) {
+			if (err) throw err;
+			console.log("-- RESULT --"+result.length);
+			exists = (result.length > 0 ? true : false)
+			console.log("-- RESULT --"+exists);
+		});
+
+		console.log(exists);
+		io.emit('command message', exists);
   	});
 
 	// send chat messages to everyone
