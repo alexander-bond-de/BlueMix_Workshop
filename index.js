@@ -56,8 +56,9 @@ io.on('connection', function(socket){
   		io.emit('command message', (msg+' has connected'));
 		console.log(msg+" has connected");
 
+		/*
 		// log user data into database
-		mongodb.collection("users").insertOne( {name: msg, password: "test"}, 
+		mongodb.collection("users").insertOne( {name: socket.user_name, password: "test"}, 
 		    function(error, result) {
 		      if (error) {
 		        response.status(500).send(error);
@@ -65,6 +66,8 @@ io.on('connection', function(socket){
 		        response.send(result);
 		      }
     	});
+    	*/
+    	
   	});
 
 	// send chat messages to everyone
