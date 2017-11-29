@@ -41,10 +41,19 @@
     // socket.io functionality
     $(function () {
 
+
+      // confirm user's login details before alowing them to chat
+      $('#loginForm').submit(function(){
+        socket.emit('confirm details' , $('#user_name').val(), $('#user_password').val());
+        $('#user_name').val('');
+        $('#user_password').val('');
+        return false;
+      });
+
       // when form is submitted, send message through socket and clear form
-      $('form').submit(function(){
-        socket.emit('chat message', $('#m').val())
-        $('#m').val('');
+      $('#inputBar').submit(function(){
+        socket.emit('chat message', $('#message').val());
+        $('#message').val('');
         return false;
       });
 
@@ -89,7 +98,7 @@
       console.log(displayMenu);
 
       if (displayMenu) {
-        $("#login").animate({width: "500px"});
+        $("#login").animate({width: "400px"});
         $("#login").promise().done(function(){
           $("#loginForm").show();
         });
@@ -109,9 +118,17 @@
         <img id="profilePicture" src="Images/unknownUser.jpg" class="w3-circle" onclick="toggleMenu()">
         <h2>Guest</h2>
       </div>
+
       <div id="loginForm" style="display : none;">
-        HELLO
+        <form action="">
+          <br>
+          <h2>Login</h2>
+          <input type="text" id="user_name" value="Username"/><br>
+          <input type="password" id="user_password" value="Password"/><br>
+          <button>Login</button>
+        </form>
       </div>
+
     </div>
 
     <h1><br></br></h1>
@@ -121,8 +138,8 @@
       <ul id="messages"></ul>
     </div>
 
-    <form class="inputBar" action="">
-      <input id="m" autocomplete="off" /><button>Send</button>
+    <form id="inputBar" action="">
+      <input id="message" autocomplete="off" /><button>Send</button>
     </form>
   </body>
 </html>
