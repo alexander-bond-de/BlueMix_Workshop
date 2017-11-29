@@ -175,7 +175,10 @@ function searchUser(user_name, user_password) {
     	results = result;
   	});
 
-  	return (results.length > 0 ? true : false);
+	if (results != null)
+  		return (results.length > 0 ? true : false);
+  	else
+  		return ("ERROR");
 };
 
 // start server listening on port
