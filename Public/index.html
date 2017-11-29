@@ -21,8 +21,8 @@
 
     // get username from incoming user
     function getUsername() {
-      setTimeout(function(){
 
+      setTimeout(function() {
         var person = prompt("Please enter chat name", "Anon");
         if (person == null || person == "")
           person = "Anon";
@@ -71,20 +71,27 @@
         $('#messages').append(html);
         scrollDown();
       });
-
-
     });
 
-    function scrollDown()
-    {
+    function scrollDown() {
       window.scrollTo(0,document.body.scrollHeight);
       $('#wrapper').scrollTop($('#wrapper')[0].scrollHeight);
     };
+
+    $('#profilePicture').click(function(){
+      $('#login').animate({length:'300'});
+    });
 
   </script>
 
     <!-- body -->
   <body onload = "getUsername()">
+
+    <div id="login">
+      <br>
+      <img id="profilePicture" src="Images/unknownUser.jpg" class="w3-circle">
+      <h2>Guest</h2>
+    </div>
 
     <h1>   Welcome to the Chatroom! <br></br>  </h1>
 
