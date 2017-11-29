@@ -171,16 +171,11 @@ function searchUser(user_name, user_password) {
 
 	mongodb.collection("users").find(query).toArray(function(err, result) {
 		console.log("-- SEARCH --"+query);
-		console.log(result);
+		console.log("-- RESULT --"+result);
     	results = result;
   	});
 
-	/*
-	mongodb.collection("users").find(query).toArray(function(err, result) {
-    	results = result;
-  	});
-  	*/
-  	return results;
+  	return (results.length > 0 ? true : false);
 };
 
 // start server listening on port
