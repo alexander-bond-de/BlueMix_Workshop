@@ -168,9 +168,18 @@ function addUser(socket) {
 function searchUser(user_name, user_password) {
 	var query = {name : user_name, password : user_password};
 	var results;
+
+	mongodb.collection("users").find(query).toArray(function(err, result) {
+		console.log("-- SEARCH --"+query);
+		console.log(result);
+    	results = result;
+  	});
+
+	/*
 	mongodb.collection("users").find(query).toArray(function(err, result) {
     	results = result;
   	});
+  	*/
   	return results;
 };
 
