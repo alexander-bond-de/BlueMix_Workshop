@@ -53,18 +53,36 @@ h1 {
 
 #m {
   border-radius: 25px;
+  background-color: #fff;
+}
+
+#login {
+    float : left;
+    height: 50;
+    background-color: #b3b3b3;
+    color: #000;
+
+    border-radius: 0px 25px 25px 0px;
+    min-width: 150px;
+    min-height:100px;
+}
+
+#profilePicture {
+    border-width: 10px;
+    border-style: none;
+    border-radius: 50%;
 }
 
 #wrapper {
     z-index: 1;
     text-align: center;
-    border-radius: 25px;
+    border-radius: 25px 0px 0px 25px;
     font-size: 1.6em;
     color: #000;
     padding: 2em;
-    margin: 0 auto;
+    margin: auto;
     width: 900px;
-    height: 80vh;
+    height: 70vh;
     background-color: #fff;
     background-repeat: no-repeat;
     background-attachment: fixed;
