@@ -37,7 +37,7 @@ mongoClient.connect(credentials.uri, {
         if (err)
             console.log(err);
         else 
-            mongodb = db.db("userData");;
+            mongodb = db.db("userData");
     }
 );
 
@@ -56,18 +56,7 @@ io.on('connection', function(socket){
   		io.emit('command message', (msg+' has connected'));
 		console.log(msg+" has connected");
 
-		/*
-		// log user data into database
-		mongodb.collection("users").insertOne( {name: socket.user_name, password: "test"}, 
-		    function(error, result) {
-		      if (error) {
-		        response.status(500).send(error);
-		      } else {
-		        response.send(result);
-		      }
-    	});
-    	*/
-    	
+		addUser(socket);
   	});
 
 	// send chat messages to everyone
@@ -153,6 +142,18 @@ io.on('connection', function(socket){
 		console.log(socket.user_name + ' disconnected');
 	});
 });
+
+function addUser(socket)
+{
+	mongodb.collection("users").insertOne( {name: socket.user_name, password: "test"}, 
+	    function(error, result) {
+	      	if (error) {
+	        	response.status(500).send(error);
+	     	} else {
+	        	response.send(result);
+	      	}
+	});
+};
 
 // start server listening on port
 server.listen(port, () =>  {
