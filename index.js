@@ -1,35 +1,53 @@
 
 'use strict';
 
-var express = require('express');
-//var app     = require('express')();
-var app     = express();
-var server  = require('http').Server(app);
-var io      = require('socket.io')(server);
+// socket.io and express setup
+var express = require('express');									// obtains express
+var app     = express();											// applies express to the app
+var server  = require('http').Server(app);							// create a 'server' using the app data
+var io      = require('socket.io')(server);							// obtains socket.io and attaches the server
+var clients = [];													// list of clients currently connected
 
-//var app = express();
-//var http = require('http').Server(app);
-//var io = require('socket.io')(http);
-//http.listen(process.env.PORT || 3000);
-//var http = require('http');
-//var socketIO = require('socket.io');
+// mongoDB setup
+var port = process.env.PORT || process.env.VCAP_APP_PORT || 3000;	// obtain running port
+var mongoClient = require("mongodb").MongoClient;					// obtain client library
+var cfenv = require('cfenv');										// obtain cfenv
+var appenv = cfenv.getAppEnv();										// parse enviroment and store
+var services = appenv.services;										// obtain services from the parsed enviroment
+var mongodbServices = services["compose-for-mongodb"];				// obtain the speciffic service for mongoDB
+assert(!util.isUndefined(mongodbServices), 					
+	"compose-for-mongodb service not found!");						// check to make sure mongoDB service exists
+var credentials = mongodbServices[0].credentials;					// obtain credentials from first mongoDB service
+var caCertificate = 
+	[new Buffer(credentials.ca_certificate_base64, 'base64')];		// obtain ca certificate for use when connecting
+var mongodb;														// used as a global variable to hold link to mongoDB client
 
-//app.use(express.static('Public'));
 
-var clients = [];	// list of clients currently connected
+// --= mongoDB functionality =--
 
-/*
-app.get('/', function(req, res){
-  res.sendFile(__dirname + '/index.html');
-  res.sendFile(__dirname + '/index.html');
-});
-*/
+// connect to the mongoDB server
+MongoClient.connect(credentials.uri, {
+        mongos: {
+            ssl: true,
+            sslValidate: true,
+            sslCA: caCertificate,
+            poolSize: 1,
+            reconnectTries: 1
+        }
+    },
+    function(err, db) {
+        if (err)
+            console.log(err);
+        else 
+            mongodb = db;
+    }
+);
+
+
+// --= socket.io functionality =--
 
 app.use(express.static("Public"));
 
-//var server = http.Server(app);
-
-//var io = socketIO(server);
 
 io.on('connection', function(socket){
 
@@ -125,9 +143,7 @@ io.on('connection', function(socket){
 	});
 });
 
-// begin listening
-let port = process.env.PORT || process.env.VCAP_APP_PORT || 3000;
-
+// start server listening on port
 server.listen(port, () =>  {
-	console.log('Server running on port: %d'+port);
+	console.log('Server running on port: '+port);
 });
