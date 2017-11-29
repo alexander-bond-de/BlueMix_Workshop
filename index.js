@@ -70,6 +70,7 @@ io.on('connection', function(socket){
   		io.emit('command message', (msg+' has connected'));
 		console.log(msg+" has connected");
 		*/
+		console.log(result);
 		io.emit('command message', result);
   	});
 
@@ -175,11 +176,12 @@ function searchUser(user_name, user_password) {
 	var cursorArray = mongodb.collection("users").find(query).toArray(function(err, result) {
 		if (err) throw err;
 		//console.log("-- SEARCH --"+query["name"]);
-		//console.log(result);
-		//console.log(result.length);
+		//console.log("-- RESULT --"+result);
+		console.log("-- RESULT --"+result.length);
 		//console.log("-- RESULT --"+result["name"]);
 
 		exists = (result.length > 0 ? true : false)
+		console.log("-- RESULT --"+exists);
   	});
   
   	return (exists);
