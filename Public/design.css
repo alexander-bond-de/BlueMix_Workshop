@@ -63,7 +63,7 @@ h1 {
     color: #000;
 
     border-radius: 0px 25px 25px 0px;
-    min-width: 150px;
+    min-width: 100px;
     min-height:100px;
 }
 
@@ -81,7 +81,7 @@ h1 {
     color: #000;
     padding: 2em;
     margin: auto;
-    width: 900px;
+    width: 120vh;
     height: 70vh;
     background-color: #fff;
     background-repeat: no-repeat;
