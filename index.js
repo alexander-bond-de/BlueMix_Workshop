@@ -173,8 +173,8 @@ function searchUser(user_name, user_password) {
 
 	
 	var cursorArray = mongodb.collection("users").find(query).toArray(function(err, result) {
-		console.log("-- SEARCH --"+query);
-		console.log("-- RESULT --"+result);
+		console.log("-- SEARCH --"+query.values());
+		console.log("-- RESULT --"+result.values());
     	cursor = result;
   	});
   	
