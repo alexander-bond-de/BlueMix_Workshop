@@ -15,8 +15,6 @@ var cfenv = require('cfenv');										// obtain cfenv
 var appenv = cfenv.getAppEnv();										// parse enviroment and store
 var services = appenv.services;										// obtain services from the parsed enviroment
 var mongodbServices = services["compose-for-mongodb"];				// obtain the speciffic service for mongoDB
-assert(!util.isUndefined(mongodbServices), 					
-	"compose-for-mongodb service not found!");						// check to make sure mongoDB service exists
 var credentials = mongodbServices[0].credentials;					// obtain credentials from first mongoDB service
 var caCertificate = 
 	[new Buffer(credentials.ca_certificate_base64, 'base64')];		// obtain ca certificate for use when connecting
