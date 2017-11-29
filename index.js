@@ -145,14 +145,11 @@ io.on('connection', function(socket){
 
 function addUser(socket)
 {
-	mongodb.collection("users").insertOne( {name: socket.user_name, password: "test"}, 
-	    function(error, result) {
-	      	if (error) {
-	        	response.status(500).send(error);
-	     	} else {
-	        	response.send(result);
-	      	}
-	});
+	try {
+   		mongodb.collection("users").insertOne({name: socket.user_name, password: "test"}) 
+	} catch (e) {
+   		print (e);
+	};
 };
 
 // start server listening on port
