@@ -24,6 +24,8 @@
     function getUsername() {
       setTimeout(function(){
 
+        toggleMenu();
+        /*
         var person = prompt("Please enter chat name", "Anon");
         if (person == null || person == "")
           person = "Anon";
@@ -36,6 +38,7 @@
         // announce connection to chat server
         socket.emit('user connected', person);
       }, 500);
+      */
     };
 
     // socket.io functionality
@@ -51,11 +54,12 @@
       });
 
       // when form is submitted, send message through socket and clear form
-      $('#inputBar').submit(function(){
+      //$('#inputBar').submit(function(){
+      function sendMessage() {
         socket.emit('chat message', $('#message').val());
         $('#message').val('');
         return false;
-      });
+      };
 
       // receiving login confirmation
       socket.on('confirm details', function(valid){
@@ -96,14 +100,12 @@
 
     });
 
-    function scrollDown()
-    {
+    function scrollDown() {
       window.scrollTo(0,document.body.scrollHeight);
       $('#wrapper').scrollTop($('#wrapper')[0].scrollHeight);
     };
 
-    function toggleMenu()
-    {
+    function toggleMenu() {
       displayMenu = !displayMenu;
 
       console.log(displayMenu);
@@ -152,7 +154,7 @@
 
     <form id="inputBar" action="">
       <input id="message" autocomplete="off" disabled/>
-      <button id="messageButton" disabled>Send</button>
+      <button id="messageButton" onclick="sendMessage()" disabled>Send</button>
     </form>
   </body>
 </html>
