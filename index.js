@@ -72,10 +72,10 @@ io.on('connection', function(socket){
 			console.log("-- RESULT --"+result.length);
 			exists = (result.length > 0 ? true : false)
 			console.log("-- RESULT --"+exists);
-		});
 
-		console.log(exists);
-		io.emit('command message', exists);
+			console.log(exists);
+			io.emit('command message', exists);
+		});
   	});
 
 	// send chat messages to everyone
