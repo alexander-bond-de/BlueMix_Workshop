@@ -167,13 +167,15 @@ function addUser(socket) {
 
 function searchUser(user_name, user_password) {
 	var query = {name : user_name, password : user_password};
-	var results;
+	var cursor;
 
-	mongodb.collection("users").find(query).toArray(function(err, result) {
+	var cursorArray = mongodb.collection("users").find(query).toArray(function(err, result) {
 		console.log("-- SEARCH --"+query);
 		console.log("-- RESULT --"+result);
-    	results = result;
+    	cursor = result;
   	});
+
+  	console.log("-- CURSORARRAY LENGTH --"+cursorArray.length);
 
 	if (results != null)
   		return (results.length > 0 ? true : false);
