@@ -58,25 +58,7 @@
 
       // attempt to submit new profile picture for user
       $('#detailsForm').submit(function(){
-        var image = new Image();
-        image.src = setProfilePicture();
-
-        /*
-        var pls = src = $("#profilePicture").attr('src');
-        var canvas = document.createElement('canvas');
-        canvas.width = image.naturalWidth;
-        canvas.height = image.naturalHeight;
-        canvas.getContext('2d').drawImage(image, 0, 0);
-        var imgURI = canvas.toDataURL(); //('image/png').replace(/^data:image\/(png|jpg);base64,/, '');
-        
-
-        console.log("imgURI 1- "+image);
-        console.log("imgURI 2- "+image.src);
-        console.log("imgURI 3- "+pls);
-
-        socket.emit('set profilePic', currentUsername, pls);
-        */
-
+        setProfilePicture();
         sendURI();
         return false;
       });
@@ -94,8 +76,6 @@
         var newName = $('#new_name').val();
         var newPassword = $('#new_password').val();
         var newConfirm = $('#new_confirm').val();
-
-        console.log(newPassword+" - "+newConfirm);
 
         if (newPassword === newConfirm)
           socket.emit('new details', newName, newPassword);
@@ -135,9 +115,8 @@
         if (imgURI != null) {
           var image = new Image();
           image.src = imgURIConverter(imgURI);
-          img.width   = "50px";
-          img.height  = "50px";
-          console.log("received image - "+image.src);
+          image.width   = "50px";
+          image.height  = "50px";
           try {$("#profilePicture").attr('src', image.src);}
           catch(err) {console.log(err);}
         }
@@ -228,7 +207,6 @@
           $("#profilePicture").width(50);
           $("#profilePicture").height(50);
           src = $("#profilePicture").attr('src');
-          console.log("src - "+src);
         };       
       fileReader.readAsDataURL( input.files[0] );
       } 
@@ -245,7 +223,6 @@
           $("#profilePicture").width(50);
           $("#profilePicture").height(50);
           src = $("#profilePicture").attr('src');
-          console.log("sending - "+src);
           socket.emit('set profilePic', currentUsername, src);
         };       
       fileReader.readAsDataURL( input.files[0] );
@@ -253,12 +230,10 @@
     }
 
     function imgURIConverter(imgURI) {
-      console.log("begin converting...");
       var img     = document.createElement("img");
       img.width   = "50px";
       img.height  = "50px";
       img.src     = imgURI;
-      console.log("done converting"+img.src);
       return img.src;
     };
 

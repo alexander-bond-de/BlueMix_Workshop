@@ -93,10 +93,6 @@ io.on('connection', function(socket){
 				io.sockets.connected[socket.id].emit('confirm details', exists, user_name, (imgExists?result[0].imageURI:null));
 
 				if (exists) {
-					if (imgExists) {
-						console.log("result of search - "+result);
-						console.log("Image details - "+result[0].imageURI);
-					}
 
 					socket.user_name = user_name;
 	  				clients.push(socket);
@@ -227,20 +223,11 @@ function searchUser(user_name, user_password) {
 	var query = {name : user_name, password : user_password};
 	var exists;
 
-	//var cursorArray = mongodb.collection("users").find(query).toArray();
-
-	
 	var cursorArray = mongodb.collection("users").find(query).toArray(function(err, result) {
 		if (err) throw err;
-		//console.log("-- SEARCH --"+query["name"]);
-		//console.log("-- RESULT --"+result);
-		console.log("-- RESULT --"+result.length);
-		//console.log("-- RESULT --"+result["name"]);
-
 		exists = (result.length > 0 ? true : false)
-		console.log("-- RESULT --"+exists);
   	});
-  
+  	
   	return (exists);
 };
 
