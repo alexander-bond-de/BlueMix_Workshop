@@ -20,6 +20,7 @@
     var socket = io.connect();  // socket connection to the server
     var displayMenu = false;    // keeps track of menu slide 
     var loggedIn  = false;
+    var currentUsername;
 
     // get username from incoming user
     function startup() {
@@ -65,7 +66,8 @@
         canvas.height = image.naturalHeight;
         canvas.getContext('2d').drawImage(image, 0, 0);
         var imgURI = canvas.toDataURL('image/png').replace(/^data:image\/(png|jpg);base64,/, '');
-        console.log(imgURI);
+        //console.log(imgURI);
+        socket.emit('set profilePic', currentUsername, imgURI);
 
         return false;
       });
@@ -110,6 +112,7 @@
           $('#user_panel').css("background-color", "#66ff66");
 
           loggedIn = true;
+          currentUsername = username;
 
           $('#message').prop('disabled', false);
           $('#messageButton').prop('disabled', false);
