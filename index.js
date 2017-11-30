@@ -55,8 +55,6 @@ io.on('connection', function(socket){
   		clients.push(socket);
   		io.emit('command message', (msg+' has connected'));
 		console.log(msg+" has connected");
-
-		addUser(socket);
   	});
 
   	// attempt to add user to database
@@ -70,7 +68,7 @@ io.on('connection', function(socket){
   			var exists = (result.length > 0 ? true : false);
 
   			if (!exists) 
-  				addUser(socket);
+  				addUser(user_name, user_password);
 
   			io.sockets.connected[socket.id].emit('new details', !exists);
 		});
@@ -85,9 +83,8 @@ io.on('connection', function(socket){
 		// confirm that user exists within database
 		var cursorArray = mongodb.collection("users").find(query).toArray(function(err, result) {
 			if (err) throw err;
-			//console.log("-- RESULT --"+result.length);
+
 			var exists = (result.length > 0 ? true : false);
-			//console.log("-- RESULT --"+exists);
 
 			//console.log(exists);
 			io.sockets.connected[socket.id].emit('confirm details', exists);
@@ -97,8 +94,6 @@ io.on('connection', function(socket){
   				clients.push(socket);
   				io.emit('command message', (user_name+' has connected'));
 				console.log(user_name+" has connected");
-
-				addUser(socket);
 			}
 		});
   	});
@@ -189,9 +184,9 @@ io.on('connection', function(socket){
 
 
 
-function addUser(socket) {
+function addUser(username, password) {
 	try {
-   		mongodb.collection("users").insertOne({name: socket.user_name, password: "test"}) 
+   		mongodb.collection("users").insertOne({name: username, password: password}) 
 	} catch (e) {
    		print (e);
 	};
