@@ -4,7 +4,7 @@
 // socket.io and express setup
 var express = require('express');									// obtains express
 var app     = express();											// applies express to the app
-var server  = require('https').Server(app);							// create a 'server' using the app data
+var server  = require('http').Server(app);							// create a 'server' using the app data
 var io      = require('socket.io')(server);							// obtains socket.io and attaches the server
 var clients = [];													// list of clients currently connected
 
