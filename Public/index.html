@@ -60,21 +60,22 @@
       $('#detailsForm').submit(function(){
         var image = new Image();
         image.src = setProfilePicture();
-        var pls = src = $("#profilePicture").attr('src');
 
         /*
+        var pls = src = $("#profilePicture").attr('src');
         var canvas = document.createElement('canvas');
         canvas.width = image.naturalWidth;
         canvas.height = image.naturalHeight;
         canvas.getContext('2d').drawImage(image, 0, 0);
         var imgURI = canvas.toDataURL(); //('image/png').replace(/^data:image\/(png|jpg);base64,/, '');
-        */
+        
 
         console.log("imgURI 1- "+image);
         console.log("imgURI 2- "+image.src);
         console.log("imgURI 3- "+pls);
 
         socket.emit('set profilePic', currentUsername, pls);
+        */
 
         return false;
       });
@@ -230,6 +231,23 @@
       } 
       return src;
     };
+
+    function sendURI(){
+      var input = document.getElementById('new_profilePic');
+      if (input.files && input.files[0]) {
+        var fileReader= new FileReader();
+        var src;
+        fileReader.onload = function(e) {
+          $("#profilePicture").attr("src", e.target.result);
+          $("#profilePicture").width(50);
+          $("#profilePicture").height(50);
+          src = $("#profilePicture").attr('src');
+          console.log("sending - "+src);
+        };       
+      fileReader.readAsDataURL( input.files[0] );
+      } 
+      socket.emit('set profilePic', currentUsername, src);
+    }
 
     function imgURIConverter(imgURI) {
       console.log("begin converting...");
