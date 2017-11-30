@@ -69,10 +69,10 @@ io.on('connection', function(socket){
   			if (err) throw err;
   			var exists = (result.length > 0 ? true : false);
 
-  			if (exists) 
+  			if (!exists) 
   				addUser(socket);
 
-  			io.sockets.connected[socket.id].emit('new details', exists);
+  			io.sockets.connected[socket.id].emit('new details', !exists);
 		});
   	});
 
