@@ -59,22 +59,38 @@ io.on('connection', function(socket){
 		addUser(socket);
   	});
 
+  	// attempt to add user to database
+  	socket.on('new details', function(newName, newPassword'){
+  		
+  		//confirm that username doesn't exists within databse
+		var query = {name : newName};
+
+  		var cursorArray = mongodb.collection("users").find(query).toArray(function(err, result) {
+  			if (err) throw err;
+  			var exists = (result.length > 0 ? true : false);
+
+  			if (exists) 
+  				addUser(socket);
+
+  			io.sockets.connected[socket.id].emit('new details', exists);
+		});
+  	});
+
   	// conform a user exisits within the database, then add them to chatroom
   	socket.on('confirm details', function(user_name, user_password){
 
   		// create JSON object
   		var query = {name : user_name, password : user_password};
-		var exists;
 
 		// confirm that user exists within database
 		var cursorArray = mongodb.collection("users").find(query).toArray(function(err, result) {
 			if (err) throw err;
-			console.log("-- RESULT --"+result.length);
-			exists = (result.length > 0 ? true : false)
-			console.log("-- RESULT --"+exists);
+			//console.log("-- RESULT --"+result.length);
+			var exists = (result.length > 0 ? true : false);
+			//console.log("-- RESULT --"+exists);
 
-			console.log(exists);
-			io.emit('confirm details', exists);
+			//console.log(exists);
+			io.sockets.connected[socket.id].emit('confirm details', exists);
 
 			if (exists) {
 				socket.user_name = user_name;
@@ -157,7 +173,7 @@ io.on('connection', function(socket){
 	    			console.log('message: '+socket.user_name+" ("+time+"): "+msg);
     			}
     			else
-    				io.emit('command message', "! "+message[0]+" is not a valid command!");
+    				io.sockets.connected[socket.id].emit('command message', "! "+message[0]+" is not a valid command!");
     			
 			}
 		}	

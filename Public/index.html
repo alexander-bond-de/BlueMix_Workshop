@@ -18,12 +18,13 @@
   <script>
 
     var socket = io.connect();  // socket connection to the server
-    var displayMenu = false;
+    var displayMenu = false;    // keeps track of menu slide 
 
     // get username from incoming user
-    function getUsername() {
-      setTimeout(function(){
+    function startup() {
+      //setTimeout(function(){
 
+        /*
         var person = prompt("Please enter chat name", "Anon");
         if (person == null || person == "")
           person = "Anon";
@@ -36,6 +37,9 @@
         // announce connection to chat server
         socket.emit('user connected', person);
       }, 500);
+      */
+
+      toggleMenu();
     };
 
     // socket.io functionality
@@ -47,6 +51,20 @@
         socket.emit('confirm details', $('#user_name').val(), $('#user_password').val());
         $('#user_name').val('');
         $('#user_password').val('');
+        return false;
+      });
+
+      // attempt to create new user from given details
+      $('#signupForm').submit(function(){
+        var newName = $('#new_name').val();
+        var newPassword = $('#new_password').val();
+        var newConfirm = $('#new_confirm').val();
+
+        if (newPassword === newConfirm)
+          socket.emit('new details', newName, newPassword);
+        else
+          $('#helpbox').text("Error: Passwords do not match!");
+
         return false;
       });
 
@@ -65,7 +83,19 @@
           $('#message').css("background-color", "#fff");
           $('#message').prop('disabled', false);
           $('#messageButton').prop('disabled', false);
+          $('#helpbox').text("");
+          toggleMenu();
+        } else {
+          $('#helpbox').text("Username or Password is incorrect!");
         }
+      });
+
+      // confirming if a new user has been created
+      socket.on('new details', function(valid){
+        if (valid) 
+          $('#helpbox').text("User Creation Successful!");
+        else
+          $('#helpbox').text("Username already in use!");
       });
 
       // when receiving information, add it to the HTML list
@@ -96,25 +126,28 @@
 
     });
 
-    function scrollDown()
-    {
+    function newUser() {
+      console.log("boo");
+      $("#loginForm").hide();
+      $("#signupForm").show();
+    };
+
+    function scrollDown() {
       window.scrollTo(0,document.body.scrollHeight);
       $('#wrapper').scrollTop($('#wrapper')[0].scrollHeight);
     };
 
-    function toggleMenu()
-    {
+    function toggleMenu() {
       displayMenu = !displayMenu;
-
-      console.log(displayMenu);
 
       if (displayMenu) {
         $("#login").animate({width: "400px"});
         $("#login").promise().done(function(){
-          $("#loginForm").show();
+        $("#loginForm").show();
         });
       } else {
         $("#loginForm").hide();
+        $("#signupForm").hide();
         $("#login").animate({width: "100px"});
       }
     };
@@ -122,7 +155,7 @@
   </script>
 
     <!-- body -->
-  <body onload = "getUsername()">
+  <body onload = "startup()">
 
     <div id="login">
       <div style="float : left; padding : 20px;">
@@ -138,7 +171,19 @@
           <input type="password" id="user_password" placeholder="Password"/><br>
           <button>Login</button>
         </form>
-        <div>helpbox</div>
+        <div id="helpbox"></div>
+        <button id="newUser" onclick="newUser()">new user?</button>
+      </div>
+
+      <div id="signupForm" style="display : none;">
+        <form action="">
+          <h2>Create account</h2>
+          <input type="text" id="new_name" placeholder="Username"/><br>
+          <input type="password" id="new_password" placeholder="Password"/><br>
+          <input type="password" id="new_confirm" placeholder="Confirm Password"/><br>
+          <button style="color: black; border: 2px solid #e7e7e7;">Create Account</button>
+        </form>
+        <div id="helpbox"></div>
       </div>
 
     </div>
