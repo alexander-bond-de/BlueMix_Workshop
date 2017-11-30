@@ -124,7 +124,7 @@
         }
 
         if (imgURI != null)
-          $("#profilePicture").attr("src", imgURIConverter(imgURI));
+          $("#profilePicture").attr('src', imgURIConverter(imgURI));
       });
 
       // confirming if a new user has been created
@@ -221,8 +221,9 @@
       img.width   = "50px";
       img.height  = "50px";
       img.src     = "data:image/png;base64," + imgURI;
-      console.log("done converting");
-      return img;
+      console.log("done converting"+img);
+      return img.src;
+
     };
 
 
