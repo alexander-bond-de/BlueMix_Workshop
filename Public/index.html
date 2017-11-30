@@ -57,10 +57,8 @@
 
       // attempt to submit new profile picture for user
       $('#detailsForm').submit(function(){
-      
         readURL();
         return false;
-
       });
 
       // confirm user's login details before alowing them to chat
@@ -191,7 +189,7 @@
      var input = document.getElementById('new_profilePic');
       if (input.files && input.files[0]) {
         var fileReader= new FileReader();
-        FR.onload = function(e) {
+        fileReader.onload = function(e) {
           $("#profilePicture").attr("src", e.target.result);
           $("#profilePicture").width(50);
           $("#profilePicture").height(50);
