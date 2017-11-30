@@ -115,8 +115,8 @@
         if (imgURI != null) {
           var image = new Image();
           image.src = imgURIConverter(imgURI);
-          image.style.width(50);
-          image.style.height(50);
+          image.style.width = 50;
+          image.style.height = 50;
           try {
             $("#profilePicture").attr('src', image.src);
             //$("#profilePicture").width(50);
@@ -147,11 +147,12 @@
           var image = new Image();
           image.src = imgURIConverter(imgURI);
           try {
-            image.style.width(50);
-            image.style.height(50);
+            image.style.width = 50;
+            image.style.height = 50;
           } catch(err) {console.log(err);}
         }
-        var html = "<li><div class=\"messageName\" style=\"float:left;\">"+name+" :"+"</div>";
+        var html = "<li><<img id=\"messageImg\" src=\""+image.src+"\" />";
+        html += "<div class=\"messageName\" style=\"float:left;\">"+name+" :"+"</div>"
         html += "<div style=\"float:left;\"> "+msg+"</div>";
         html += "<div class=\"messageTime\" style=\"float:right;\">"+time+"</div></li><br>";
         $('#messages').append(html);
