@@ -68,7 +68,7 @@ io.on('connection', function(socket){
   			var exists = (result.length > 0 ? true : false);
 
   			if (!exists) 
-  				addUser(user_name, user_password);
+  				addUser(newName, newPassword);
 
   			io.sockets.connected[socket.id].emit('new details', !exists);
 		});
