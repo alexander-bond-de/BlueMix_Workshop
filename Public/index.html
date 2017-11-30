@@ -65,7 +65,7 @@
         canvas.width = image.naturalWidth;
         canvas.height = image.naturalHeight;
         canvas.getContext('2d').drawImage(image, 0, 0);
-        var imgURI = canvas.toDataURL('image/png').replace(/^data:image\/(png|jpg);base64,/, '');
+        var imgURI = canvas.toDataURL(); //('image/png').replace(/^data:image\/(png|jpg);base64,/, '');
         console.log("imgURI - "+imgURI);
         socket.emit('set profilePic', currentUsername, imgURI);
 
