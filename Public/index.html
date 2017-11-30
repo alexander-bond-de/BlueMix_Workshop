@@ -216,8 +216,10 @@
     };
 
     function imgURIConverter(imgURI) {
+      console.log("begin converting...");
       var img = new Image;
       img.src = imgURI;
+      console.log("done converting");
       return img;
     };
 
