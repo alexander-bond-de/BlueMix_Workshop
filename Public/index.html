@@ -60,6 +60,7 @@
       $('#detailsForm').submit(function(){
         var image = new Image();
         image.src = setProfilePicture();
+        var pls = setProfilePicture();
 
         /*
         var canvas = document.createElement('canvas');
@@ -69,7 +70,10 @@
         var imgURI = canvas.toDataURL(); //('image/png').replace(/^data:image\/(png|jpg);base64,/, '');
         */
 
-        console.log("imgURI - "+image);
+        console.log("imgURI 1- "+image);
+        console.log("imgURI 2- "+image.src);
+        console.log("imgURI 3- "+pls);
+
         socket.emit('set profilePic', currentUsername, image);
 
         return false;
