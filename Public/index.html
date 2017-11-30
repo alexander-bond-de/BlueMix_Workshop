@@ -197,18 +197,16 @@
 
     function setProfilePicture() {
       var input = document.getElementById('new_profilePic');
-      var file;
       if (input.files && input.files[0]) {
         var fileReader= new FileReader();
         fileReader.onload = function(e) {
           $("#profilePicture").attr("src", e.target.result);
           $("#profilePicture").width(50);
           $("#profilePicture").height(50);
-          file = e.target.result;
         };       
       fileReader.readAsDataURL( input.files[0] );
       } 
-      return file;
+      return $("#profilePicture").attr(src);
     };
 
 
