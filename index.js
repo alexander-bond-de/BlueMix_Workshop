@@ -60,7 +60,7 @@ io.on('connection', function(socket){
   	});
 
   	// attempt to add user to database
-  	socket.on('new details', function(newName, newPassword'){
+  	socket.on('new details', function(newName, newPassword){
   		
   		//confirm that username doesn't exists within databse
 		var query = {name : newName};
