@@ -24,8 +24,6 @@
     function getUsername() {
       setTimeout(function(){
 
-        toggleMenu();
-        /*
         var person = prompt("Please enter chat name", "Anon");
         if (person == null || person == "")
           person = "Anon";
@@ -38,8 +36,6 @@
         // announce connection to chat server
         socket.emit('user connected', person);
       }, 500);
-      */
-      }, 500);
     };
 
     // socket.io functionality
@@ -47,20 +43,19 @@
 
 
       // confirm user's login details before alowing them to chat
-      function validate() {
+      $('#loginForm').submit(function(){
         socket.emit('confirm details', $('#user_name').val(), $('#user_password').val());
         $('#user_name').val('');
         $('#user_password').val('');
         return false;
-      };
+      });
 
       // when form is submitted, send message through socket and clear form
-      //$('#inputBar').submit(function(){
-      function sendMessage() {
+      $('#inputBar').submit(function(){
         socket.emit('chat message', $('#message').val());
         $('#message').val('');
         return false;
-      };
+      });
 
       // receiving login confirmation
       socket.on('confirm details', function(valid){
@@ -101,12 +96,14 @@
 
     });
 
-    function scrollDown() {
+    function scrollDown()
+    {
       window.scrollTo(0,document.body.scrollHeight);
       $('#wrapper').scrollTop($('#wrapper')[0].scrollHeight);
     };
 
-    function toggleMenu() {
+    function toggleMenu()
+    {
       displayMenu = !displayMenu;
 
       console.log(displayMenu);
@@ -133,8 +130,8 @@
         <h2>Guest</h2>
       </div>
 
-      <div id="loginForm" onsubmit="validate(); style="display : none;">
-        <form action="" return false;>
+      <div id="loginForm" style="display : none;">
+        <form action="">
           <br>
           <h2>Login</h2>
           <input type="text" id="user_name" placeholder="Username"/><br>
@@ -155,7 +152,7 @@
 
     <form id="inputBar" action="">
       <input id="message" autocomplete="off" disabled/>
-      <button id="messageButton" onclick="sendMessage()" disabled>Send</button>
+      <button id="messageButton" disabled>Send</button>
     </form>
   </body>
 </html>
