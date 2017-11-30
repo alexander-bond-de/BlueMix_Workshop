@@ -57,17 +57,8 @@
 
       // attempt to submit new profile picture for user
       $('#detailsForm').submit(function(){
-        
-        console.log("begin...");
-        var file = document.getElementById('new_profilePic').files[0];
-        var reader  = new FileReader();
-        console.log("made parts");
-        reader.onload = function(e) {
-          
-            //$('#profilePicture').attr('src', e.target.result); fff
-            console.log("set image");
-        }
-
+      
+        readURL();
         /*
         $("#profilePicture").change(function() {
           var input = $('#new_profilePic');
@@ -223,6 +214,23 @@
         $("#user_panel").animate({width: "100px"});
       }
     };
+
+    function readURL() {
+    console.log("start");
+     var input = $('#new_profilePic');
+     console.log("got input");
+      if (el.files && el.files[0]) {
+        console.log("inside if");
+        var FR= new FileReader();
+        FR.onload = function(e) {
+          console.log("insode reader");
+          $("#profilePicture").attr("src", e.target.result);
+          console.log("worked");
+      };       
+           FR.readAsDataURL( el.files[0] );
+    } 
+};
+
 
   </script>
 
