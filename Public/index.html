@@ -19,6 +19,7 @@
 
     var socket = io.connect();  // socket connection to the server
     var displayMenu = false;    // keeps track of menu slide 
+    var loggedIn  = false;
 
     // get username from incoming user
     function startup() {
@@ -83,6 +84,10 @@
           // enable all fields
           $('#wrapper').css("background-color", "#fff");
           $('#message').css("background-color", "#fff");
+          $('#user_panel').css("background-color", "#66ff66");
+
+          loggedIn = true;
+
           $('#message').prop('disabled', false);
           $('#messageButton').prop('disabled', false);
           $('#helpbox_login').text("");
@@ -128,10 +133,16 @@
 
     });
 
-    function newUser() {
-      console.log("boo");
+    function btn_newUser() {
+      $("#signupForm").hide();
+      $("#loginForm").show();
+      $('#helpbox_login').text("");
+    };
+
+    function btn_back() {
       $("#loginForm").hide();
       $("#signupForm").show();
+      $('#helpbox_signup').text("");
     };
 
     function scrollDown() {
@@ -143,15 +154,19 @@
       displayMenu = !displayMenu;
 
       if (displayMenu) {
-        $("#login").animate({width: "400px"});
-        $("#login").promise().done(function(){
-        $("#loginForm").show();
+        $("#user_panel").animate({width: "400px"});
+        $("#user_panel").promise().done(function(){
+        if (loggedIn)
+          $("#detailsForm").show();
+        else
+          $("#loginForm").show();
         });
       } else {
         $("#loginForm").hide();
         $("#signupForm").hide();
+        $("#detailsForm").hide();
         $('#helpbox_login').text("");
-        $("#login").animate({width: "100px"});
+        $("#user_panel").animate({width: "100px"});
       }
     };
 
@@ -160,7 +175,7 @@
     <!-- body -->
   <body onload = "startup()">
 
-    <div id="login">
+    <div id="user_panel">
       <div style="float : left; padding : 20px;">
         <img id="profilePicture" src="Images/unknownUser.jpg" class="w3-circle" onclick="toggleMenu()">
         <h2>Guest</h2>
@@ -175,7 +190,7 @@
           <button>Login</button>
         </form>
         <div id="helpbox_login"></div>
-        <button id="newUser" onclick="newUser()">new user?</button>
+        <button id="btn_newUser" onclick="newUser()">new user?</button>
       </div>
 
       <div id="signupForm" style="display : none;">
@@ -187,6 +202,16 @@
           <button style="color: black; border: 2px solid #e7e7e7;">Create Account</button>
         </form>
         <div id="helpbox_signup"></div>
+        <button id="btn_back" onclick="newUser()">back to login</button>
+      </div>
+
+      <div id="detailsForm"  style="display : none;">
+        <form action="">
+          <h2>Welcome!</h2>
+          You can choose a new peofile picture here
+          <input type="file" id="new_profilePic" accept="image/*">
+          <button>Submit</button>
+        </form>
       </div>
 
     </div>
