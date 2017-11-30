@@ -59,13 +59,13 @@
       $('#detailsForm').submit(function(){
         
         console.log("begin...");
-        var file = $("#profilePicture").files[0];
+        var file = document.getElementById('new_profilePic').files[0];
         var reader  = new FileReader();
         console.log("made parts");
         reader.onload = function(e) {
             var image = document.createElement("img");
             console.log("created element");
-            $('#new_profilePic').attr('src', e.target.result);
+            $('#profilePicture').attr('src', e.target.result);
             console.log("set image");
         }
 
