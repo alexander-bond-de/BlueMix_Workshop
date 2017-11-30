@@ -55,6 +55,23 @@
         change: function() { this.value = this.value.replace(/\s/g, ""); }
       });
 
+      // attempt to submit new profile picture for user
+      $('#detailsForm').submit(function(){
+        var profile = $('#new_profilePic').val();
+        var canvas = document.createElement("canvas");
+        canvas.width = profile.width;
+        canvas.height = profile.height;
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(profile, 0, 0);
+        var dataURL = canvas.toDataURL("image/png");
+        var data64 = dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+        console.log(data64);
+
+        var image = new Image();
+        image.src = data64;
+        $('#profilePicture').attr('src', image);
+      });
+
       // confirm user's login details before alowing them to chat
       $('#loginForm').submit(function(){
         socket.emit('confirm details', $('#user_name').val(), $('#user_password').val());
@@ -142,13 +159,13 @@
 
     });
 
-    function btn_newUser() {
+    function btn_back() {
       $("#signupForm").hide();
       $("#loginForm").show();
       $('#helpbox_login').text("");
     };
 
-    function btn_back() {
+    function btn_newUser() {
       $("#loginForm").hide();
       $("#signupForm").show();
       $('#helpbox_signup').text("");
