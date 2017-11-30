@@ -217,9 +217,9 @@
 
     function readURL() {
     console.log("start");
-     var input = $('#new_profilePic');
+     var input = document.getElementById('new_profilePic');
      console.log("got input");
-      if (el.files && el.files[0]) {
+      if (input.files && input.files[0]) {
         console.log("inside if");
         var FR= new FileReader();
         FR.onload = function(e) {
