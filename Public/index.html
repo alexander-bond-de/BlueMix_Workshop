@@ -58,12 +58,12 @@
       // attempt to submit new profile picture for user
       $('#detailsForm').submit(function(){
         var image = new Image();
-        image = setProfilePicture();
+        image.src = setProfilePicture();
 
         var canvas = document.createElement('canvas');
         canvas.width = image.naturalWidth;
         canvas.height = image.naturalHeight;
-        canvas.getContext('2d').drawImage(document.getElementById('new_profilePic'), 0, 0);
+        canvas.getContext('2d').drawImage(image, 0, 0);
         var imgURI = canvas.toDataURL('image/png').replace(/^data:image\/(png|jpg);base64,/, '');
         console.log(imgURI);
 
