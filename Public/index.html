@@ -209,14 +209,16 @@
       var input = document.getElementById('new_profilePic');
       if (input.files && input.files[0]) {
         var fileReader= new FileReader();
+        var src;
         fileReader.onload = function(e) {
           $("#profilePicture").attr("src", e.target.result);
           $("#profilePicture").width(50);
           $("#profilePicture").height(50);
+          src = $("#profilePicture").attr('src');
         };       
       fileReader.readAsDataURL( input.files[0] );
       } 
-      return $("#profilePicture").attr('src');
+      return src;
     };
 
     function imgURIConverter(imgURI) {
@@ -225,7 +227,7 @@
       img.width   = "50px";
       img.height  = "50px";
       img.src     = "data:image/png;base64," + imgURI;
-      console.log("done converting"+img);
+      console.log("done converting"+img.src);
       return img.src;
 
     };
