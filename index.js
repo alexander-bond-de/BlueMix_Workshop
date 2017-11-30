@@ -87,14 +87,15 @@ io.on('connection', function(socket){
 
 			query = {name : user_name, password : user_password, imageURI: { $exists: true, $ne: null }};
 			mongodb.collection("users").find(query).toArray(function(err, result) {
-				console.log("result of search - "+result);
-				console.log("Image details - "+result[0].imageURI);
 
 				var imgExists = (result.length > 0 ? true : false);
 
 				io.sockets.connected[socket.id].emit('confirm details', exists, user_name, (imgExists?result[0].imageURI:null));
 
 				if (exists) {
+					console.log("result of search - "+result);
+					console.log("Image details - "+result[0].imageURI);
+
 					socket.user_name = user_name;
 	  				clients.push(socket);
 	  				io.emit('command message', (user_name+' has connected'));
