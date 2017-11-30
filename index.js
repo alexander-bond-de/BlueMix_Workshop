@@ -83,10 +83,8 @@ io.on('connection', function(socket){
 		// confirm that user exists within database
 		var cursorArray = mongodb.collection("users").find(query).toArray(function(err, result) {
 			if (err) throw err;
-
 			var exists = (result.length > 0 ? true : false);
 
-			//console.log(exists);
 			io.sockets.connected[socket.id].emit('confirm details', exists, user_name);
 
 			if (exists) {
@@ -94,6 +92,28 @@ io.on('connection', function(socket){
   				clients.push(socket);
   				io.emit('command message', (user_name+' has connected'));
 				console.log(user_name+" has connected");
+			}
+		});
+  	});
+
+  	// assign a profile picture to a user
+  	socket.on('set profilePic', function(user_name, imgURI){
+
+  		// create JSON object
+  		var query = {name : user_name};
+
+  		// confirm that user exists within database
+		var cursorArray = mongodb.collection("users").find(query).toArray(function(err, result) {
+			if (err) throw err;
+			var exists = (result.length > 0 ? true : false);
+
+			if (exists) {
+				mongodb.collection("users").update(
+					{name : user_name},
+					{ $set:
+						{imageURI : imgURI}
+					}
+				);
 			}
 		});
   	});
