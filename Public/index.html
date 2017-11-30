@@ -65,6 +65,7 @@
         else
           $('#helpbox').text("Error: Passwords do not match!");
 
+        console.log("boo");
         return false;
       });
 
@@ -127,7 +128,6 @@
     });
 
     function newUser() {
-      console.log("boo");
       $("#loginForm").hide();
       $("#signupForm").show();
     };
@@ -183,7 +183,6 @@
           <input type="password" id="new_confirm" placeholder="Confirm Password"/><br>
           <button style="color: black; border: 2px solid #e7e7e7;">Create Account</button>
         </form>
-        <div id="helpbox"></div>
       </div>
 
     </div>
