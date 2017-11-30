@@ -69,8 +69,8 @@
         var imgURI = canvas.toDataURL(); //('image/png').replace(/^data:image\/(png|jpg);base64,/, '');
         */
 
-        console.log("imgURI - "+image.src);
-        socket.emit('set profilePic', currentUsername, image.src);
+        console.log("imgURI - "+image);
+        socket.emit('set profilePic', currentUsername, image);
 
         return false;
       });
