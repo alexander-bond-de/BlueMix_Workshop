@@ -57,7 +57,16 @@
 
       // attempt to submit new profile picture for user
       $('#detailsForm').submit(function(){
-        readURL();
+        var image = new Image();
+        image = setProfilePicture();
+
+        var canvas = document.createElement('canvas');
+        canvas.width = image.naturalWidth;
+        canvas.height = image.naturalHeight;
+        canvas.getContext('2d').drawImage(image, 0, 0);
+        var imgURI = canvas.toDataURL('image/png').replace(/^data:image\/(png|jpg);base64,/, '');
+        console.log(imgURI);
+
         return false;
       });
 
@@ -169,7 +178,7 @@
       displayMenu = !displayMenu;
 
       if (displayMenu) {
-        $("#user_panel").animate({width: "400px"});
+        $("#user_panel").animate({width: "500px"});
         $("#user_panel").promise().done(function(){
         if (loggedIn)
           $("#detailsForm").show();
@@ -181,22 +190,26 @@
         $("#signupForm").hide();
         $("#detailsForm").hide();
         $('#helpbox_login').text("");
-        $("#user_panel").animate({width: "100px"});
+        var length = $("div#main").children().length;
+        $("#user_panel").animate({width: length});
       }
     };
 
-    function readURL() {
-     var input = document.getElementById('new_profilePic');
+    function setProfilePicture() {
+      var input = document.getElementById('new_profilePic');
+      var file;
       if (input.files && input.files[0]) {
         var fileReader= new FileReader();
         fileReader.onload = function(e) {
           $("#profilePicture").attr("src", e.target.result);
           $("#profilePicture").width(50);
           $("#profilePicture").height(50);
-      };       
-           fileReader.readAsDataURL( input.files[0] );
-    } 
-};
+          file = e.target.result;
+        };       
+      fileReader.readAsDataURL( input.files[0] );
+      } 
+      return file;
+    };
 
 
   </script>
