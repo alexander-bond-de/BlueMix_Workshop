@@ -217,8 +217,10 @@
 
     function imgURIConverter(imgURI) {
       console.log("begin converting...");
-      var img = new Image;
-      img.src = imgURI;
+      var img     = document.createElement("img");
+      img.width   = "50px";
+      img.height  = "50px";
+      img.src     = "data:image/png;base64," + imgURI;
       console.log("done converting");
       return img;
     };
