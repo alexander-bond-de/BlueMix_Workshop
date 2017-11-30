@@ -60,7 +60,7 @@
         var newPassword = $('#new_password').val();
         var newConfirm = $('#new_confirm').val();
 
-        if (newPassword === newConfirm)
+        if (newPassword == newConfirm)
           socket.emit('new details', newName, newPassword);
         else
           $('#helpbox').text("Error: Passwords do not match!");
@@ -171,7 +171,6 @@
           <input type="password" id="user_password" placeholder="Password"/><br>
           <button>Login</button>
         </form>
-        <div id="helpbox"></div>
         <button id="newUser" onclick="newUser()">new user?</button>
       </div>
 
@@ -183,6 +182,7 @@
           <input type="password" id="new_confirm" placeholder="Confirm Password"/><br>
           <button style="color: black; border: 2px solid #e7e7e7;">Create Account</button>
         </form>
+        <div id="helpbox"></div>
       </div>
 
     </div>
