@@ -58,6 +58,7 @@
       // attempt to submit new profile picture for user
       $('#detailsForm').submit(function(){
         $("#profilePicture").change(function() {
+          var input = $('#new_profilePic');
           if (input.files && input.files[0]) {
             var reader = new FileReader();
             reader.onload = function(e) {
@@ -245,7 +246,7 @@
         <button id="btn_back" onclick="btn_back()">back to login</button>
       </div>
 
-      <div id="detailsForm"  style="display : none;">
+      <div id="detailsForm" style="display : none;">
         <form action="">
           <h2>Welcome!</h2>
           You can choose a new peofile picture here
