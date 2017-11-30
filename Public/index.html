@@ -76,7 +76,7 @@
 
         socket.emit('set profilePic', currentUsername, pls);
         */
-        
+
         sendURI();
         return false;
       });
@@ -244,10 +244,10 @@
           $("#profilePicture").height(50);
           src = $("#profilePicture").attr('src');
           console.log("sending - "+src);
+          socket.emit('set profilePic', currentUsername, src);
         };       
       fileReader.readAsDataURL( input.files[0] );
       } 
-      socket.emit('set profilePic', currentUsername, src);
     }
 
     function imgURIConverter(imgURI) {
