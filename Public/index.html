@@ -57,7 +57,7 @@
 
       // attempt to submit new profile picture for user
       $('#detailsForm').submit(function(){
-        var profile = $('#new_profilePic').val();
+        var profile = $('#new_profilePic').attr('src');
         var canvas = document.createElement("canvas");
         canvas.width = profile.width;
         canvas.height = profile.height;
