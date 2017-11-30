@@ -135,6 +135,8 @@
         if (imgURI != null) {
           var image = new Image();
           image.src = imgURIConverter(imgURI);
+          img.width   = "50px";
+          img.height  = "50px";
           console.log("received image - "+image.src);
           try {$("#profilePicture").attr('src', image.src);}
           catch(err) {console.log(err);}
