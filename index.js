@@ -97,6 +97,7 @@ io.on('connection', function(socket){
   				clients.push(socket);
   				io.emit('command message', (user_name+' has connected'));
 				console.log(user_name+" has connected");
+				
 			}
 		});
   	});
