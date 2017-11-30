@@ -63,7 +63,7 @@ io.on('connection', function(socket){
   		//confirm that username doesn't exists within databse
 		var query = {name : newName};
 
-  		var cursorArray = mongodb.collection("users").find(query).toArray(function(err, result) {
+  		mongodb.collection("users").find(query).toArray(function(err, result) {
   			if (err) throw err;
   			var exists = (result.length > 0 ? true : false);
 
@@ -191,8 +191,17 @@ io.on('connection', function(socket){
 					var d = new Date();
 	      			var time = d.getHours()+":"+(d.getMinutes()<10?("0"+d.getMinutes()):d.getMinutes());
 
-					io.emit('chat message', (socket.user_name), msg, time);
-	    			console.log('message: '+socket.user_name+" ("+time+"): "+msg);
+	      			// get user's profile picture
+	      			var query = {name : socket.user_name};
+					mongodb.collection("users").find(query).toArray(function(err, result) {
+						if (err) throw err;
+						var exists = (result.length > 0 ? true : false);
+
+						if (exists) {
+							io.emit('chat message', result[0].imageURI, (socket.user_name), msg, time);
+	    					console.log('message: '+socket.user_name+" ("+time+"): "+msg);
+						}
+					});	
     			}
     			else
     				io.sockets.connected[socket.id].emit('command message', "! "+message[0]+" is not a valid command!");
@@ -227,7 +236,7 @@ function searchUser(user_name, user_password) {
 		if (err) throw err;
 		exists = (result.length > 0 ? true : false)
   	});
-  	
+
   	return (exists);
 };
 

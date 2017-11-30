@@ -115,10 +115,13 @@
         if (imgURI != null) {
           var image = new Image();
           image.src = imgURIConverter(imgURI);
-          image.width   = "50px";
-          image.height  = "50px";
-          try {$("#profilePicture").attr('src', image.src);}
-          catch(err) {console.log(err);}
+          image.style.width(50);
+          image.style.height(50);
+          try {
+            $("#profilePicture").attr('src', image.src);
+            //$("#profilePicture").width(50);
+            //$("#profilePicture").height(50);
+          } catch(err) {console.log(err);}
         }
         
       });
@@ -139,7 +142,15 @@
       });
 
       // when receiving a message, add it to the HTML list
-      socket.on('chat message', function(name, msg, time){
+      socket.on('chat message', function(imgURI, name, msg, time){
+        if (imgURI != null) {
+          var image = new Image();
+          image.src = imgURIConverter(imgURI);
+          try {
+            image.style.width(50);
+            image.style.height(50);
+          } catch(err) {console.log(err);}
+        }
         var html = "<li><div class=\"messageName\" style=\"float:left;\">"+name+" :"+"</div>";
         html += "<div style=\"float:left;\"> "+msg+"</div>";
         html += "<div class=\"messageTime\" style=\"float:right;\">"+time+"</div></li><br>";
