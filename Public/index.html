@@ -123,8 +123,12 @@
           $('#helpbox_login').text("Username or Password is incorrect!");
         }
 
-        if (imgURI != null)
-          $("#profilePicture").attr('src', imgURIConverter(imgURI));
+        if (imgURI != null) {
+          var image = new Image();
+          image.src = imgURIConverter(imgURI);
+          $("#profilePicture").attr('src', image);
+        }
+        
       });
 
       // confirming if a new user has been created
