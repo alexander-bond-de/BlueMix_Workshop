@@ -104,7 +104,7 @@
       });
 
       // receiving login confirmation
-      socket.on('confirm details', function(valid, username){
+      socket.on('confirm details', function(valid, username, imgURI){
         if (valid) {
           // enable all fields
           $('#wrapper').css("background-color", "#fff");
@@ -122,6 +122,9 @@
         } else {
           $('#helpbox_login').text("Username or Password is incorrect!");
         }
+
+        if (imgURI != null)
+          $("#profilePicture").attr("src", imgURIConverter(imgURI));
       });
 
       // confirming if a new user has been created
@@ -210,6 +213,12 @@
       fileReader.readAsDataURL( input.files[0] );
       } 
       return $("#profilePicture").attr('src');
+    };
+
+    function imgURIConverter(imgURI) {
+      var img = new Image;
+      img.src = imgURI;
+      return img;
     };
 
 

@@ -85,6 +85,11 @@ io.on('connection', function(socket){
 			if (err) throw err;
 			var exists = (result.length > 0 ? true : false);
 
+			query = {name : user_name, password : user_password, imageURI: { $exists: true, $ne: null }};
+			mongodb.collection("users").find(query).toArray(function(err, result) {
+				console.log(result);
+			}
+
 			io.sockets.connected[socket.id].emit('confirm details', exists, user_name);
 
 			if (exists) {
@@ -92,6 +97,7 @@ io.on('connection', function(socket){
   				clients.push(socket);
   				io.emit('command message', (user_name+' has connected'));
 				console.log(user_name+" has connected");
+				
 			}
 		});
   	});
