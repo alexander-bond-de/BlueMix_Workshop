@@ -87,7 +87,7 @@ io.on('connection', function(socket){
 			var exists = (result.length > 0 ? true : false);
 
 			//console.log(exists);
-			io.sockets.connected[socket.id].emit('confirm details', exists);
+			io.sockets.connected[socket.id].emit('confirm details', exists, user_name);
 
 			if (exists) {
 				socket.user_name = user_name;
