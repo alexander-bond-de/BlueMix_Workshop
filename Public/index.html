@@ -46,6 +46,14 @@
     // socket.io functionality
     $(function () {
 
+      // don't allow spaces in username
+      $("input#new_name").on({
+        keydown: function(e) {
+          if (e.which === 32)
+            return false;
+        },
+        change: function() { this.value = this.value.replace(/\s/g, ""); }
+      });
 
       // confirm user's login details before alowing them to chat
       $('#loginForm').submit(function(){
@@ -79,7 +87,7 @@
       });
 
       // receiving login confirmation
-      socket.on('confirm details', function(valid){
+      socket.on('confirm details', function(valid, username){
         if (valid) {
           // enable all fields
           $('#wrapper').css("background-color", "#fff");
@@ -91,6 +99,7 @@
           $('#message').prop('disabled', false);
           $('#messageButton').prop('disabled', false);
           $('#helpbox_login').text("");
+          $('#profileName').text(username);
           toggleMenu();
         } else {
           $('#helpbox_login').text("Username or Password is incorrect!");
@@ -178,7 +187,7 @@
     <div id="user_panel">
       <div style="float : left; padding : 20px;">
         <img id="profilePicture" src="Images/unknownUser.jpg" class="w3-circle" onclick="toggleMenu()">
-        <h2>Guest</h2>
+        <h2 id="profileName">Guest</h2>
       </div>
 
       <div id="loginForm" style="display : none;">
@@ -209,7 +218,7 @@
         <form action="">
           <h2>Welcome!</h2>
           You can choose a new peofile picture here
-          <input type="file" id="new_profilePic" accept="image/*">
+          <br><input type="file" id="new_profilePic" accept="image/*"><br>
           <button>Submit</button>
         </form>
       </div>
