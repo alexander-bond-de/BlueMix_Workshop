@@ -66,7 +66,7 @@
         canvas.height = image.naturalHeight;
         canvas.getContext('2d').drawImage(image, 0, 0);
         var imgURI = canvas.toDataURL('image/png').replace(/^data:image\/(png|jpg);base64,/, '');
-        //console.log(imgURI);
+        console.log("imgURI - "+imgURI);
         socket.emit('set profilePic', currentUsername, imgURI);
 
         return false;
@@ -217,6 +217,7 @@
           $("#profilePicture").width(50);
           $("#profilePicture").height(50);
           src = $("#profilePicture").attr('src');
+          console.log("src - "+src);
         };       
       fileReader.readAsDataURL( input.files[0] );
       } 
