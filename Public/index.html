@@ -117,11 +117,8 @@
           image.src = imgURIConverter(imgURI);
           image.style.width = 50;
           image.style.height = 50;
-          try {
-            $("#profilePicture").attr('src', image.src);
-            //$("#profilePicture").width(50);
-            //$("#profilePicture").height(50);
-          } catch(err) {console.log(err);}
+          try { $("#profilePicture").attr('src', image.src);}
+          catch(err) {console.log(err);}
         }
         
       });
@@ -146,10 +143,6 @@
         if (imgURI != null) {
           var image = new Image();
           image.src = imgURIConverter(imgURI);
-          try {
-            image.style.width = 50;
-            image.style.height = 50;
-          } catch(err) {console.log(err);}
         }
         var html = "<li><<img id=\"messageImg\" src=\""+image.src+"\" />";
         html += "<div class=\"messageName\" style=\"float:left;\">"+name+" :"+"</div>"
