@@ -126,7 +126,9 @@
         if (imgURI != null) {
           var image = new Image();
           image.src = imgURIConverter(imgURI);
-          $("#profilePicture").attr('src', image);
+          console.log("received image - "+image.src);
+          try {$("#profilePicture").attr('src', image.src);}
+          catch(err) {console.log(err);}
         }
         
       });
@@ -229,7 +231,6 @@
       img.src     = "data:image/png;base64," + imgURI;
       console.log("done converting"+img.src);
       return img.src;
-
     };
 
 
