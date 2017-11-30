@@ -60,12 +60,13 @@
         var newPassword = $('#new_password').val();
         var newConfirm = $('#new_confirm').val();
 
-        if (newPassword == newConfirm)
+        console.log(newPassword+" - "+newConfirm);
+
+        if (newPassword === newConfirm)
           socket.emit('new details', newName, newPassword);
         else
-          $('#helpbox').text("Error: Passwords do not match!");
+          $('#helpbox_signup').text("Error: Passwords do not match!");
 
-        console.log("boo");
         return false;
       });
 
@@ -84,19 +85,19 @@
           $('#message').css("background-color", "#fff");
           $('#message').prop('disabled', false);
           $('#messageButton').prop('disabled', false);
-          $('#helpbox').text("");
+          $('#helpbox_login').text("");
           toggleMenu();
         } else {
-          $('#helpbox').text("Username or Password is incorrect!");
+          $('#helpbox_login').text("Username or Password is incorrect!");
         }
       });
 
       // confirming if a new user has been created
       socket.on('new details', function(valid){
         if (valid) 
-          $('#helpbox').text("User Creation Successful!");
+          $('#helpbox_signup').text("User Creation Successful!");
         else
-          $('#helpbox').text("Username already in use!");
+          $('#helpbox_signup').text("Username already in use!");
       });
 
       // when receiving information, add it to the HTML list
@@ -128,6 +129,7 @@
     });
 
     function newUser() {
+      console.log("boo");
       $("#loginForm").hide();
       $("#signupForm").show();
     };
@@ -171,6 +173,7 @@
           <input type="password" id="user_password" placeholder="Password"/><br>
           <button>Login</button>
         </form>
+        <div id="helpbox_login"></div>
         <button id="newUser" onclick="newUser()">new user?</button>
       </div>
 
@@ -182,7 +185,7 @@
           <input type="password" id="new_confirm" placeholder="Confirm Password"/><br>
           <button style="color: black; border: 2px solid #e7e7e7;">Create Account</button>
         </form>
-        <div id="helpbox"></div>
+        <div id="helpbox_signup"></div>
       </div>
 
     </div>
