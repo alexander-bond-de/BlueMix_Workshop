@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+
+<!-- index.html - Alexander Bond 307659 - Jonathan Ashton 307660 -->
+
+  <head>
+
+    <link rel="stylesheet" type="text/css" href="design.css">
+    <!-- <link href="Public/ElectroShackle.otf" rel="stylesheet" type="text/css"> -->
+
+      <title>Chatroom</title>
+      <link rel="stylesheet" type="text/css" href="/design.css">
+  </head>
+
+    <!-- Javascript -->
+  <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+  <script src='/socket.io/socket.io.js'></script>
+  <script>
+
+    var socket = io.connect();  // socket connection to the server
+    var displayMenu = false;    // keeps track of menu slide 
+    var loggedIn  = false;
+    var currentUsername;
+
+    // get username from incoming user
+    function startup() {
+      //setTimeout(function(){
+
+        /*
+        var person = prompt("Please enter chat name", "Anon");
+        if (person == null || person == "")
+          person = "Anon";
+        else
+          person = person.replace(/ /g, "_");
+
+        // update title
+        document.title = ("Chatroom - "+person);
+
+        // announce connection to chat server
+        socket.emit('user connected', person);
+      }, 500);
+      */
+
+      toggleMenu();
+    };
+
+    // socket.io functionality
+    $(function () {
+
+      // don't allow spaces in username
+      $("input#new_name").on({
+        keydown: function(e) {
+          if (e.which === 32)
+            return false;
+        },
+        change: function() { this.value = this.value.replace(/\s/g, ""); }
+      });
+
+      // attempt to submit new profile picture for user
+      $('#detailsForm').submit(function(){
+        setProfilePicture();
+        sendURI();
+        return false;
+      });
+
+      // confirm user's login details before alowing them to chat
+      $('#loginForm').submit(function(){
+        socket.emit('confirm details', $('#user_name').val(), $('#user_password').val());
+        $('#user_name').val('');
+        $('#user_password').val('');
+        return false;
+      });
+
+      // attempt to create new user from given details
+      $('#signupForm').submit(function(){
+        var newName = $('#new_name').val();
+        var newPassword = $('#new_password').val();
+        var newConfirm = $('#new_confirm').val();
+
+        if (newPassword === newConfirm)
+          socket.emit('new details', newName, newPassword);
+        else
+          $('#helpbox_signup').text("Error: Passwords do not match!");
+
+        return false;
+      });
+
+      // when form is submitted, send message through socket and clear form
+      $('#inputBar').submit(function(){
+        socket.emit('chat message', $('#message').val());
+        $('#message').val('');
+        return false;
+      });
+
+      // receiving login confirmation
+      socket.on('confirm details', function(valid, username, imgURI){
+        if (valid) {
+          // enable all fields
+          $('#wrapper').css("background-color", "#fff");
+          $('#message').css("background-color", "#fff");
+          $('#user_panel').css("background-color", "#66ff66");
+
+          loggedIn = true;
+          currentUsername = username;
+
+          $('#message').prop('disabled', false);
+          $('#messageButton').prop('disabled', false);
+          $('#helpbox_login').text("");
+          $('#profileName').text(username);
+          toggleMenu();
+        } else {
+          $('#helpbox_login').text("Username or Password is incorrect!");
+        }
+
+        if (imgURI != null) {
+          var image = new Image();
+          image.src = imgURIConverter(imgURI);
+          image.style.width = 50;
+          image.style.height = 50;
+          try { $("#profilePicture").attr('src', image.src);}
+          catch(err) {console.log(err);}
+        }
+        
+      });
+
+      // confirming if a new user has been created
+      socket.on('new details', function(valid){
+        if (valid) 
+          $('#helpbox_signup').text("User Creation Successful!");
+        else
+          $('#helpbox_signup').text("Username already in use!");
+      });
+
+      // when receiving information, add it to the HTML list
+      socket.on('command message', function(msg){
+        var html = "<li><div class=\"messageInfo\">"+msg+"</div>";
+        $('#messages').append(html);
+        scrollDown();     
+      });
+
+      // when receiving a message, add it to the HTML list
+      socket.on('chat message', function(imgURI, name, msg, time){
+        if (imgURI != null) {
+          var image = new Image();
+          image.src = imgURIConverter(imgURI);
+        }
+        var html = "<li><<img id=\"messageImg\" src=\""+image.src+"\" />";
+        html += "<div class=\"messageName\" style=\"float:left;\">"+name+" :"+"</div>"
+        html += "<div style=\"float:left;\"> "+msg+"</div>";
+        html += "<div class=\"messageTime\" style=\"float:right;\">"+time+"</div></li><br>";
+        $('#messages').append(html);
+        scrollDown();
+      });
+
+      // when receiving a whisper, add it to the HTML list
+      socket.on('secret message', function(name, msg, time){
+        var html = "<li><div class=\"messageInfo\" style=\"float:left;\">"+name+" :"+"</div>";
+        html += "<div style=\"float:left;\">"+msg+"</div>";
+        html += "<div class=\"messageTime\" style=\"float:right;\">"+time+"</div></li><br>";
+        $('#messages').append(html);
+        scrollDown();
+      });
+
+
+    });
+
+    function btn_back() {
+      $("#signupForm").hide();
+      $("#loginForm").show();
+      $('#helpbox_login').text("");
+    };
+
+    function btn_newUser() {
+      $("#loginForm").hide();
+      $("#signupForm").show();
+      $('#helpbox_signup').text("");
+    };
+
+    function scrollDown() {
+      window.scrollTo(0,document.body.scrollHeight);
+      $('#wrapper').scrollTop($('#wrapper')[0].scrollHeight);
+    };
+
+    function toggleMenu() {
+      displayMenu = !displayMenu;
+
+      if (displayMenu) {
+        $("#user_panel").animate({width: "500px"});
+        $("#user_panel").promise().done(function(){
+        if (loggedIn)
+          $("#detailsForm").show();
+        else
+          $("#loginForm").show();
+        });
+      } else {
+        $("#loginForm").hide();
+        $("#signupForm").hide();
+        $("#detailsForm").hide();
+        $('#helpbox_login').text("");
+        var length = $("div#main").children().length;
+        $("#user_panel").animate({width: length});
+      }
+    };
+
+    function setProfilePicture() {
+      var input = document.getElementById('new_profilePic');
+      if (input.files && input.files[0]) {
+        var fileReader= new FileReader();
+        var src;
+        fileReader.onload = function(e) {
+          $("#profilePicture").attr("src", e.target.result);
+          $("#profilePicture").width(50);
+          $("#profilePicture").height(50);
+          src = $("#profilePicture").attr('src');
+        };       
+      fileReader.readAsDataURL( input.files[0] );
+      } 
+      return src;
+    };
+
+    function sendURI(){
+      var input = document.getElementById('new_profilePic');
+      if (input.files && input.files[0]) {
+        var fileReader= new FileReader();
+        var src;
+        fileReader.onload = function(e) {
+          $("#profilePicture").attr("src", e.target.result);
+          $("#profilePicture").width(50);
+          $("#profilePicture").height(50);
+          src = $("#profilePicture").attr('src');
+          socket.emit('set profilePic', currentUsername, src);
+        };       
+      fileReader.readAsDataURL( input.files[0] );
+      } 
+    }
+
+    function imgURIConverter(imgURI) {
+      var img     = document.createElement("img");
+      img.width   = "50px";
+      img.height  = "50px";
+      img.src     = imgURI;
+      return img.src;
+    };
+
+
+  </script>
+
+    <!-- body -->
+  <body onload = "startup()">
+
+    <div id="user_panel">
+      <div style="float : left; padding : 20px;">
+        <img id="profilePicture" src="Images/unknownUser.jpg" class="w3-circle" onclick="toggleMenu()">
+        <h2 id="profileName">Guest</h2>
+      </div>
+
+      <div id="loginForm" style="display : none;">
+        <form action="">
+          <br>
+          <h2>Login</h2>
+          <input type="text" id="user_name" placeholder="Username"/><br>
+          <input type="password" id="user_password" placeholder="Password"/><br>
+          <button>Login</button>
+        </form>
+        <div id="helpbox_login"></div>
+        <button id="btn_newUser" onclick="btn_newUser()">new user?</button>
+      </div>
+
+      <div id="signupForm" style="display : none;">
+        <form action="">
+          <h2>Create account</h2>
+          <input type="text" id="new_name" placeholder="Username"/><br>
+          <input type="password" id="new_password" placeholder="Password"/><br>
+          <input type="password" id="new_confirm" placeholder="Confirm Password"/><br>
+          <button style="color: black; border: 2px solid #e7e7e7;">Create Account</button>
+        </form>
+        <div id="helpbox_signup"></div>
+        <button id="btn_back" onclick="btn_back()">back to login</button>
+      </div>
+
+      <div id="detailsForm" style="display : none;">
+        <form action="">
+          <h2>Welcome!</h2>
+          You can choose a new peofile picture here
+          <br><input type="file" id="new_profilePic" accept="image/*"><br>
+          <button>Submit</button>
+        </form>
+      </div>
+
+    </div>
+
+    <h1><br></br></h1>
+
+    <div id="wrapper" style ="overflow-y: scroll;">
+      You're now chatting. Say hi!
+      <ul id="messages"></ul>
+    </div>
+
+    <form id="inputBar">
+      <input id="message" autocomplete="off" disabled/>
+      <button id="messageButton" disabled>Send</button>
+    </form>
+  </body>
+</html>
