@@ -47,12 +47,12 @@
 
 
       // confirm user's login details before alowing them to chat
-      $('#loginForm').submit(function(){
+      function validate() {
         socket.emit('confirm details', $('#user_name').val(), $('#user_password').val());
         $('#user_name').val('');
         $('#user_password').val('');
         return false;
-      });
+      };
 
       // when form is submitted, send message through socket and clear form
       //$('#inputBar').submit(function(){
@@ -133,8 +133,8 @@
         <h2>Guest</h2>
       </div>
 
-      <div id="loginForm" style="display : none;">
-        <form action="">
+      <div id="loginForm" onsubmit="validate(); style="display : none;">
+        <form action="" return false;>
           <br>
           <h2>Login</h2>
           <input type="text" id="user_name" placeholder="Username"/><br>
