@@ -93,8 +93,10 @@ io.on('connection', function(socket){
 				io.sockets.connected[socket.id].emit('confirm details', exists, user_name, (imgExists?result[0].imageURI:null));
 
 				if (exists) {
-					console.log("result of search - "+result);
-					console.log("Image details - "+result[0].imageURI);
+					if (imgExists) {
+						console.log("result of search - "+result);
+						console.log("Image details - "+result[0].imageURI);
+					}
 
 					socket.user_name = user_name;
 	  				clients.push(socket);
