@@ -10,6 +10,7 @@
 
       <title>Chatroom</title>
       <link rel="stylesheet" type="text/css" href="/design.css">
+      <meta http-equiv="Content-Security-Policy" content="ddefault-src 'self' http://compassionate-haibt.mybluemix.net/">
   </head>
 
     <!-- Javascript -->
@@ -24,23 +25,6 @@
 
     // get username from incoming user
     function startup() {
-      //setTimeout(function(){
-
-        /*
-        var person = prompt("Please enter chat name", "Anon");
-        if (person == null || person == "")
-          person = "Anon";
-        else
-          person = person.replace(/ /g, "_");
-
-        // update title
-        document.title = ("Chatroom - "+person);
-
-        // announce connection to chat server
-        socket.emit('user connected', person);
-      }, 500);
-      */
-
       toggleMenu();
     };
 
