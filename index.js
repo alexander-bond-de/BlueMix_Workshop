@@ -8,6 +8,8 @@ var server  = require('http').Server(app);							// create a 'server' using the 
 var io      = require('socket.io')(server);							// obtains socket.io and attaches the server
 var clients = [];													// list of clients currently connected
 
+require('https').globalAgent.options.rejectUnauthorized = false;	// attempt at security
+
 // mongoDB setup
 var port = process.env.PORT || process.env.VCAP_APP_PORT || 3000;	// obtain running port
 var mongoClient = require("mongodb").MongoClient;					// obtain client library
