@@ -5,6 +5,8 @@
 var express = require('express');									// obtains express
 var app     = express();											// applies express to the app
 var server  = require('http').Server(app);							// create a 'server' using the app data
+app.enable('trust proxy');
+
 var io      = require('socket.io')(server);							// obtains socket.io and attaches the server
 var clients = [];													// list of clients currently connected
 
@@ -22,6 +24,40 @@ var caCertificate =
 	[new Buffer(credentials.ca_certificate_base64, 'base64')];		// obtain ca certificate for use when connecting
 var mongodb;														// used as a global variable to hold link to mongoDB client
 
+var middleware = module.exports,
+    url = require("url");
+
+var HTTP = "http:",
+    HTTPS = "https:";
+
+middleware.transportSecurity = function () {
+
+    var applicationURL = "https://myapp.bluemix.net/"
+        scheme = url.parse(applicationURL).protocol;
+
+    function securityEnabled () {
+        if (scheme !== HTTP && scheme !== HTTPS) {
+            throw new Error(
+                "The application URL scheme must be 'http' or 'https'."
+            );
+        }
+        return scheme === HTTPS;
+    }
+
+    function redirectURL (request) {
+        return url.resolve(applicationURL, request.originalUrl);
+    }
+
+    return function (request, response, next) {
+        if (securityEnabled() && !request.secure) {
+            response.redirect(301, redirectURL(request));
+        }
+        else {
+            next();
+        }
+    };
+
+};
 
 // --= mongoDB functionality =--
 
