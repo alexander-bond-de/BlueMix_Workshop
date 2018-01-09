@@ -39,7 +39,7 @@ app.use(helmet.contentSecurityPolicy({
   directives: {
     defaultSrc: ["'self'"],
     styleSrc: ["'self'", 'maxcdn.bootstrapcdn.com'],
-    scriptSrc: ["/socket.io.js"]
+    scriptSrc: ["/socket.io/socket.io.js", "https://code.jquery.com/jquery-1.11.1.js"]
   }
 }))
 
