@@ -24,40 +24,14 @@ var caCertificate =
 	[new Buffer(credentials.ca_certificate_base64, 'base64')];		// obtain ca certificate for use when connecting
 var mongodb;														// used as a global variable to hold link to mongoDB client
 
-var middleware = module.exports,
-    url = require("url");
+function sslneed(req, res, next) {
+if (req.headers && req.headers.$wssc === "80") {
+return res.redirect('https://' + req.get('host') + req.url);
+}
+next();
+}
+app.use(sslneed);
 
-var HTTP = "http:",
-    HTTPS = "https:";
-
-middleware.transportSecurity = function () {
-
-    var applicationURL = "https://myapp.bluemix.net/"
-        scheme = url.parse(applicationURL).protocol;
-
-    function securityEnabled () {
-        if (scheme !== HTTP && scheme !== HTTPS) {
-            throw new Error(
-                "The application URL scheme must be 'http' or 'https'."
-            );
-        }
-        return scheme === HTTPS;
-    }
-
-    function redirectURL (request) {
-        return url.resolve(applicationURL, request.originalUrl);
-    }
-
-    return function (request, response, next) {
-        if (securityEnabled() && !request.secure) {
-            response.redirect(301, redirectURL(request));
-        }
-        else {
-            next();
-        }
-    };
-
-};
 
 // --= mongoDB functionality =--
 
