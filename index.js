@@ -37,8 +37,9 @@ var helmet = require('helmet');
 app.use(helmet());
 app.use(helmet.contentSecurityPolicy({
   directives: {
-    defaultSrc: ["'script'"],
-    styleSrc: ["'self'", 'maxcdn.bootstrapcdn.com']
+    defaultSrc: ["'self'"],
+    styleSrc: ["'self'", 'maxcdn.bootstrapcdn.com'],
+    scriptSrc: "'socket.io.js'"
   }
 }))
 
