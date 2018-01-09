@@ -27,9 +27,9 @@ var mongodb;														// used as a global variable to hold link to mongoDB c
 // security setup
 function requireHTTPS(req, res, next) {
 if (req.headers && req.headers.$wssp === "80") {
-return res.redirect('https://' + req.get('host') + req.url);
-}
-next();
+	return res.redirect('https://' + req.get('host') + req.url);
+	}
+	next();
 }
 app.use(requireHTTPS);
 
@@ -37,7 +37,7 @@ var helmet = require('helmet');
 app.use(helmet());
 app.use(helmet.contentSecurityPolicy({
   directives: {
-    defaultSrc: ["'self'"],
+    defaultSrc: ["'script'"],
     styleSrc: ["'self'", 'maxcdn.bootstrapcdn.com']
   }
 }))
