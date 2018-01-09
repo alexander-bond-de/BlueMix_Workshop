@@ -35,14 +35,14 @@ app.use(requireHTTPS);
 
 var helmet = require('helmet');
 app.use(helmet());
+/*
 app.use(helmet.contentSecurityPolicy({
   directives: {
-    defaultSrc: ["'self'"],
+    defaultSrc: ["'self'", default.com],
     styleSrc: ["'self'", 'maxcdn.bootstrapcdn.com'],
-    scriptSrc: ["/socket.io/socket.io.js", "https://code.jquery.com/jquery-1.11.1.js"]
   }
 }))
-
+*/
 
 
 // --= mongoDB functionality =--
