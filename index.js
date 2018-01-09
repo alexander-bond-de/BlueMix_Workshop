@@ -24,13 +24,13 @@ var caCertificate =
 	[new Buffer(credentials.ca_certificate_base64, 'base64')];		// obtain ca certificate for use when connecting
 var mongodb;														// used as a global variable to hold link to mongoDB client
 
-function sslneed(req, res, next) {
-if (req.headers && req.headers.$wssc === "80") {
+function requireHTTPS(req, res, next) {
+if (req.headers && req.headers.$wssp === "80") {
 return res.redirect('https://' + req.get('host') + req.url);
 }
 next();
 }
-app.use(sslneed);
+app.use(requireHTTPS);
 
 
 // --= mongoDB functionality =--
