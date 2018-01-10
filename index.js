@@ -299,8 +299,10 @@ function removeFromChatroom(user_name, chatroomID) {
 function getChatroom(chatroomID) {
 	var query = {chatroom_id : chatroomID};
 
-	var cursorArray = mongodb.collection("chatroom").find(query).toArray(function(err, result) {
+	var cursorArray = mongodb.collection("chatroom").find({}).toArray(function(err, result) {
 		if (err) throw err;
+
+		console.log(result);
 		else if(result.length > 0)
 			return result;
 		else
