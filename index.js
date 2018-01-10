@@ -164,7 +164,7 @@ io.on('connection', function(socket){
 				// Command to list current users in chatroom
 
 				console.log("\\list used by "+socket.user_name);
-				var query = {chatroom_id : chatroomID};
+				var query = {chatroom_id : chatroom_id};
 
 				var cursorArray = mongodb.collection("chatroom").find({}).toArray(function(err, result) {
 					if (err) throw err;
