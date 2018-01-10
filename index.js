@@ -8,7 +8,8 @@ var server  = require('http').Server(app);							// create a 'server' using the 
 app.enable('trust proxy');
 
 var io      = require('socket.io')(server);							// obtains socket.io and attaches the server
-var clients = [];													// list of clients currently connected
+//var clients = [];													// list of clients currently connected
+var chatroom_id = 001;												// arbitrary chatroom value (would be changed depending on which chatroom is being hosted)
 
 require('https').globalAgent.options.rejectUnauthorized = false;	// attempt at security
 
@@ -44,7 +45,6 @@ app.use(helmet.contentSecurityPolicy({
 }))
 */
 
-
 // --= mongoDB functionality =--
 
 // connect to the mongoDB server
@@ -76,7 +76,8 @@ io.on('connection', function(socket){
 	// announce when a user enters the chat
   	socket.on('user connected', function(msg){
   		socket.user_name = msg;
-  		clients.push(socket);
+	  		//clients.push(socket);
+	  		addToChatroom(msg, chatroom_id);
   		io.emit('command message', (msg+' has connected'));
 		console.log(msg+" has connected");
   	});
@@ -119,7 +120,8 @@ io.on('connection', function(socket){
 				if (exists) {
 
 					socket.user_name = user_name;
-	  				clients.push(socket);
+	  					//clients.push(socket);
+	  					addToChatroom(user_name, chatroom_id);
 	  				io.emit('command message', (user_name+' has connected'));
 					console.log(user_name+" has connected");
 				}
@@ -161,6 +163,7 @@ io.on('connection', function(socket){
 			{
 				// Command to list current users in chatroom
 
+				var clients = getChatroom(chatroom_id);
 				console.log("\\list used by "+socket.user_name);
 				var currentUsers = ("* ("+clients.length+") current users:");
 				for (var x = 0; x < clients.length; x++)
@@ -193,13 +196,13 @@ io.on('connection', function(socket){
 	      		var time = d.getHours()+":"+(d.getMinutes()<10?("0"+d.getMinutes()):d.getMinutes());
 
 				// cycle through current clients in chatroom
+				var clients = getChatroom(chatroom_id);
 				for (var p = 0; (p < clients.length && !foundUser); p++)
-					if (receiver === clients[p].user_name)
-					{
-						io.sockets.connected[socket.id].emit('secret message', saveMessage, messageTxt, time);
-						io.sockets.connected[clients[p].id].emit('secret message', sendMessage, messageTxt, time);
-						foundUser = true;
-					}
+				if (receiver === clients[p].user_name) {
+					io.sockets.connected[socket.id].emit('secret message', saveMessage, messageTxt, time);
+					io.sockets.connected[clients[p].id].emit('secret message', sendMessage, messageTxt, time);
+					foundUser = true;
+				}
 				if (!foundUser)
 					io.sockets.connected[socket.id].emit('command message', "! "+receiver+" is not in the chatroom!");
 
@@ -236,14 +239,16 @@ io.on('connection', function(socket){
 
 	// announce when a user leaves the chat
 	socket.on('disconnect', function(){
-		clients.splice(clients.indexOf(socket), 1);
+			//clients.splice(clients.indexOf(socket), 1);
+			removeFromChatroom(socket.user_name, chatroomID);
 		io.emit('command message', (socket.user_name+' has disconnected'));
 		console.log(socket.user_name + ' disconnected');
 	});
 });
 
+// --= FUNCTIONS =--
 
-
+// adds a new user to the users collection
 function addUser(username, password) {
 	try {
    		mongodb.collection("users").insertOne({name: username, password: password}) 
@@ -252,6 +257,7 @@ function addUser(username, password) {
 	};
 };
 
+// looks for a user in the users collectiom
 function searchUser(user_name, user_password) {
 	var query = {name : user_name, password : user_password};
 	var exists;
@@ -264,7 +270,61 @@ function searchUser(user_name, user_password) {
   	return (exists);
 };
 
+// adds a user into a chatroom
+function addToChatroom(user_name, chatroomID) {
+	try {
+   		mongodb.collection("chatroom").insertOne({name : user_name, chatroom_id : chatroomID}) 
+	} catch (e) {
+   		print (e);
+	};
+}
+
+// removes a user from a chatroom
+function removeFromChatroom(user_name,. chatroomID) {
+	var query = {name : user_name, chatroom_id : chatroomID};
+	var exists;
+
+	mongodb.collection("chatroom").findOne(query, function (err, result){
+		if (result===null) console.log(user_name+" - "+chatroomID+" pair not found!");
+		else {
+			mongodb.collection("chatroom").remove(query, function (err){
+				if (err) console.log("Error removing "+user_name+" from chatroom "+chatroomID);
+				else console.log("Removed "+user_name+" from chatroom "+chatroomID);
+			});
+		}
+	});
+}
+
+// returns array of users in a chatroom
+function getChatroom(chatroomID) {
+	var query = {chatroom_id : chatroomID};
+	var exists;
+
+	var cursorArray = mongodb.collection("chatroom").find(query).toArray(function(err, result) {
+		if (err) throw err;
+		exists = (result.length > 0 ? true : false)
+  	});
+
+  	return cursorArray.toArray();
+}
+
 // start server listening on port
 server.listen(port, () =>  {
 	console.log('Server running on port: '+port);
+});
+
+// delete a vegetable by id
+router.delete('/vegetable/:veg_id', function(req,res){
+	console.log("Deleting vegetable...");
+	var veg = req.params.veg_id;
+
+	vegModel.findOne({ name: veg }, function (err, result){
+		if (result===null) res.json({message:'Vegetable not found!'});
+		else {
+			vegModel.remove({ name: veg }, function (err){
+				if (err) res.json({message:'Error deleting Vegetable!'});
+				else res.json({message:'Deleted Vegetable'});
+			});
+		}
+	});
 });
