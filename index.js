@@ -298,14 +298,14 @@ function removeFromChatroom(user_name, chatroomID) {
 // returns array of users in a chatroom
 function getChatroom(chatroomID) {
 	var query = {chatroom_id : chatroomID};
-	var exists;
 
 	var cursorArray = mongodb.collection("chatroom").find(query).toArray(function(err, result) {
 		if (err) throw err;
-		exists = (result.length > 0 ? true : false)
+		else if(result.length > 0)
+			return result;
+		else
+			return null;
   	});
-
-  	return cursorArray.toArray();
 }
 
 // start server listening on port
