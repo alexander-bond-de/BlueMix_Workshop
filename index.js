@@ -280,7 +280,7 @@ function addToChatroom(user_name, chatroomID) {
 }
 
 // removes a user from a chatroom
-function removeFromChatroom(user_name,. chatroomID) {
+function removeFromChatroom(user_name, chatroomID) {
 	var query = {name : user_name, chatroom_id : chatroomID};
 	var exists;
 
