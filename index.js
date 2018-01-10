@@ -312,19 +312,3 @@ function getChatroom(chatroomID) {
 server.listen(port, () =>  {
 	console.log('Server running on port: '+port);
 });
-
-// delete a vegetable by id
-router.delete('/vegetable/:veg_id', function(req,res){
-	console.log("Deleting vegetable...");
-	var veg = req.params.veg_id;
-
-	vegModel.findOne({ name: veg }, function (err, result){
-		if (result===null) res.json({message:'Vegetable not found!'});
-		else {
-			vegModel.remove({ name: veg }, function (err){
-				if (err) res.json({message:'Error deleting Vegetable!'});
-				else res.json({message:'Deleted Vegetable'});
-			});
-		}
-	});
-});
