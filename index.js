@@ -303,7 +303,7 @@ function getChatroom(chatroomID) {
 		if (err) throw err;
 
 		console.log(result);
-		else if(result.length > 0)
+		if(result.length > 0)
 			return result;
 		else
 			return {};
