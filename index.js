@@ -9,7 +9,7 @@ app.enable('trust proxy');
 
 var io      = require('socket.io')(server);							// obtains socket.io and attaches the server
 //var clients = [];													// list of clients currently connected
-var chatroom_id = 001;												// arbitrary chatroom value (would be changed depending on which chatroom is being hosted)
+var chatroom_id = 1;												// arbitrary chatroom value (would be changed depending on which chatroom is being hosted)
 
 require('https').globalAgent.options.rejectUnauthorized = false;	// attempt at security
 
