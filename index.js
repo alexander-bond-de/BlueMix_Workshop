@@ -304,7 +304,7 @@ function getChatroom(chatroomID) {
 		else if(result.length > 0)
 			return result;
 		else
-			return null;
+			return {};
   	});
 }
 
