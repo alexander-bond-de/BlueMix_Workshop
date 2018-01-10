@@ -163,13 +163,22 @@ io.on('connection', function(socket){
 			{
 				// Command to list current users in chatroom
 
-				var clients = getChatroom(chatroom_id);
 				console.log("\\list used by "+socket.user_name);
-				var currentUsers = ("* ("+clients.length+") current users:");
-				for (var x = 0; x < clients.length; x++)
-					currentUsers += (" " + clients[x].user_name);
-				currentUsers += " *";
-				io.sockets.connected[socket.id].emit('command message', currentUsers);
+				var query = {chatroom_id : chatroomID};
+
+				var cursorArray = mongodb.collection("chatroom").find({}).toArray(function(err, result) {
+					if (err) throw err;
+
+					console.log(result);
+					if(result.length > 0) {
+						var currentUsers = ("* ("+result.length+") current users:");
+						for (var x = 0; x < result.length; x++)
+							currentUsers += (" " + result[x].name);
+						currentUsers += " *";
+						io.sockets.connected[socket.id].emit('command message', currentUsers);
+					};
+				});
+				
 				break;
 			}
 			case "%5Chelp":
