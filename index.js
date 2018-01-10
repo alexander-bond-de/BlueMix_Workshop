@@ -240,7 +240,7 @@ io.on('connection', function(socket){
 	// announce when a user leaves the chat
 	socket.on('disconnect', function(){
 			//clients.splice(clients.indexOf(socket), 1);
-			removeFromChatroom(socket.user_name, chatroomID);
+			removeFromChatroom(socket.user_name, chatroom_id);
 		io.emit('command message', (socket.user_name+' has disconnected'));
 		console.log(socket.user_name + ' disconnected');
 	});
