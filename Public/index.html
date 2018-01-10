@@ -123,10 +123,11 @@
 
       // when receiving a message, add it to the HTML list
       socket.on('chat message', function(imgURI, name, msg, time){
-        if (imgURI != null) {
-          var image = new Image();
-          image.src = imgURIConverter(imgURI);
-        }
+
+        var image = new Image();
+        if (imgURI != null) image.src = imgURIConverter(imgURI);
+        else image.src = "Images/unknownUser.jpg";
+        
         var html = "<li><img class=\"messageImg\" style=\"float:left;\" src=\""+image.src+"\" />";
         html += "<div class=\"messageName\" style=\"float:left;\">"+name+" :"+"</div>"
         html += "<div style=\"float:left;\"> "+msg+"</div>";
