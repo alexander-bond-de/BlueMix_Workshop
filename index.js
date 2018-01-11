@@ -272,6 +272,7 @@ io.on('connection', function(socket){
 							var query = {chatroom_id : chatroomID};
 							var cursorArray = mongodb.collection("chatroom").find(query).toArray(function(err, users) {
 								if (err) throw err;
+								console.log("found users :"+users.length);
 
 								// send to all users in that chatroom
 								if(users.length > 0) {

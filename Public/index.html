@@ -71,7 +71,7 @@
 
       // when form is submitted, send message through socket and clear form
       $('#inputBar').submit(function(){
-        socket.emit('chat message', $('#message').val());
+        socket.emit('chat message', $('#message').val(), currentChatroom);
         $('#message').val('');
         return false;
       });
