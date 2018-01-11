@@ -325,8 +325,9 @@ function searchUser(user_name, user_password) {
 
 // adds a user into a chatroom
 function addToChatroom(user_name, socket_id, chatroomID) {
+	console.log(socket_id)
 	try {
-   		mongodb.collection("chatroom").insertOne({name : user_name, socket : socket_id, chatroom_id : chatroomID}) 
+   		mongodb.collection("chatroom").insertOne({name : user_name, chatroom_id : chatroomID}) //  socket : socket_id
 	} catch (e) {
    		print (e);
 	};
