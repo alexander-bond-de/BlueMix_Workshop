@@ -99,6 +99,37 @@ io.on('connection', function(socket){
 		});
   	});
 
+  	// set a user's current chatroom
+  	socket.on('set chatroom', function(user_name, chatroomID){
+
+  		// create JSON object
+  		var query = {name : user_name};
+
+  		// confirm that user exists within database
+		var cursorArray = mongodb.collection("users").find(query).toArray(function(err, result) {
+			if (err) throw err;
+			var exists = (result.length > 0 ? true : false);
+
+			// if user exists, find them in the chatroom and update their chatroom id
+			if (exists) {
+				var exists;
+				mongodb.collection("chatroom").findOne(query, function (err, result){
+
+					// update the chatroom of user
+					if (result===null) console.log(user_name+" not found!");
+					else {
+						mongodb.collection("chatroom").update(
+							{name : user_name},
+							{ $set:
+								{chatroom_id : chatroomID}
+							}
+						);
+					}
+				});
+			}
+		});
+  	}
+
   	// conform a user exisits within the database, then add them to chatroom
   	socket.on('confirm details', function(user_name, user_password){
 
