@@ -185,7 +185,7 @@ io.on('connection', function(socket){
   	});
 
 	// send chat messages to everyone
-	socket.on('chat message', function(msg){
+	socket.on('chat message', function(msg, chatroomID){
 		var splitIndex = msg.indexOf(" ");
 		var message = [msg.slice(0,splitIndex), msg.slice(splitIndex+1)];
 
@@ -267,7 +267,18 @@ io.on('connection', function(socket){
 						var exists = (result.length > 0 ? true : false);
 
 						if (exists) {
-							io.emit('chat message', result[0].imageURI, (socket.user_name), msg, time);
+
+							// send to appropriate chatroom
+							var query = {chatroom_id : chatroomID};
+							var cursorArray = mongodb.collection("chatroom").find(query).toArray(function(err, users) {
+								if (err) throw err;
+
+								// send to all users in that chatroom
+								if(users.length > 0) {
+									for (var userCount = 0; userCount < users.length; userCount++)
+										io.sockets.connected[users.socket].emit('chat message', result[0].imageURI, (socket.user_name), msg, time);
+								};
+							});
 	    					console.log('message: '+socket.user_name+" ("+time+"): "+msg);
 						}
 					});	
@@ -313,9 +324,9 @@ function searchUser(user_name, user_password) {
 };
 
 // adds a user into a chatroom
-function addToChatroom(user_name, chatroomID) {
+function addToChatroom(user_name, socket_id, chatroomID) {
 	try {
-   		mongodb.collection("chatroom").insertOne({name : user_name, chatroom_id : chatroomID}) 
+   		mongodb.collection("chatroom").insertOne({name : user_name, socket : socket_id chatroom_id : chatroomID}) 
 	} catch (e) {
    		print (e);
 	};
