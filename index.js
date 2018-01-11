@@ -197,9 +197,9 @@ io.on('connection', function(socket){
 				// Command to list current users in chatroom
 
 				console.log("\\list used by "+socket.user_name);
+				
 				var query = {chatroom_id : chatroom_id};
-
-				var cursorArray = mongodb.collection("chatroom").find({}).toArray(function(err, result) {
+				var cursorArray = mongodb.collection("chatroom").find(query).toArray(function(err, result) {
 					if (err) throw err;
 
 					console.log(result);
@@ -297,7 +297,7 @@ io.on('connection', function(socket){
 	// announce when a user leaves the chat
 	socket.on('disconnect', function(){
 			//clients.splice(clients.indexOf(socket), 1);
-			removeFromChatroom(socket.user_name, chatroom_id);
+			removeFromChatroom(socket.user_name);
 		io.emit('command message', (socket.user_name+' has disconnected'));
 		console.log(socket.user_name + ' disconnected');
 	});
@@ -338,16 +338,16 @@ function addToChatroom(user_name, socket_id, chatroomID) {
 }
 
 // removes a user from a chatroom
-function removeFromChatroom(user_name, chatroomID) {
-	var query = {name : user_name, chatroom_id : chatroomID};
+function removeFromChatroom(user_name) {
+	var query = {name : user_name};
 	var exists;
 
 	mongodb.collection("chatroom").findOne(query, function (err, result){
-		if (result===null) console.log(user_name+" - "+chatroomID+" pair not found!");
+		if (result===null) console.log(user_name+" not found!");
 		else {
 			mongodb.collection("chatroom").remove(query, function (err){
-				if (err) console.log("Error removing "+user_name+" from chatroom "+chatroomID);
-				else console.log("Removed "+user_name+" from chatroom "+chatroomID);
+				if (err) console.log("Error removing "+user_name+" from chatroom");
+				else console.log("Removed "+user_name+" from chatroom");
 			});
 		}
 	});
