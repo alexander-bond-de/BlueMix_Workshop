@@ -155,6 +155,9 @@
       socket.on('new chatroom', function(newChatroom){
         currentChatroom = newChatroom;
         $('#chatroom_id').text("");
+        $("#messages").empty();
+        var html = "<li><div class=\"messageInfo\">Welcome to chatroom:"+newChatroom+"!</div>"
+        $('#messages').append(html);
         toggleMenu();
       });
 

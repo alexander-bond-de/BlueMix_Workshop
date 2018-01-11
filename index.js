@@ -252,7 +252,7 @@ io.on('connection', function(socket){
 							foundUser = true;
 						}
 						if (!foundUser)
-							io.sockets.connected[socket.id].emit('command message', "! "+receiver+" is not in the chatroom!");
+							io.sockets.connected[socket.id].emit('command message', "! "+receiver+" is not in the chatroom !");
 					}
 				});
 
