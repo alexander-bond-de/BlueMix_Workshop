@@ -277,7 +277,10 @@ io.on('connection', function(socket){
 								// send to all users in that chatroom
 								if(users.length > 0) {
 									for (var userCount = 0; userCount < users.length; userCount++)
-										io.sockets.connected[users.socket].emit('chat message', result[0].imageURI, (socket.user_name), msg, time);
+									{
+										console.log("sendomg to socket :"+users[userCount].socket);
+										io.sockets.connected[users[userCount].socket].emit('chat message', result[0].imageURI, (socket.user_name), msg, time);
+									}
 								};
 							});
 	    					console.log('message: '+socket.user_name+" ("+time+"): "+msg);
