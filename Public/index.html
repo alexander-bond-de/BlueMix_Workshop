@@ -96,6 +96,7 @@
           $('#helpbox_login').text("Username or Password is incorrect!");
         }
 
+        // foarmatt image
         if (imgURI != null) {
           var image = new Image();
           image.src = imgURIConverter(imgURI);
@@ -104,6 +105,9 @@
           try { $("#profilePicture").attr('src', image.src);}
           catch(err) {console.log(err);}
         }
+
+        // set default chatroom as 1
+        currentChatroom = 1;
         
       });
 
