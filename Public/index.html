@@ -21,6 +21,7 @@
     var displayMenu = false;    // keeps track of menu slide 
     var loggedIn  = false;
     var currentUsername;
+    var currentChatroom;
 
     // get username from incoming user
     function startup() {
@@ -161,6 +162,11 @@
       $('#helpbox_signup').text("");
     };
 
+    function btn_newhatroom() {
+      var newChatroom = $("chatroom_id").val();
+      console.log(newChatroom);
+    }
+
     function scrollDown() {
       window.scrollTo(0,document.body.scrollHeight);
       $('#wrapper').scrollTop($('#wrapper')[0].scrollHeight);
@@ -264,10 +270,15 @@
       </div>
 
       <div id="detailsForm" style="display : none;">
+        <h2>Welcome!</h2>
         <form action="">
-          <h2>Welcome!</h2>
-          You can choose a new peofile picture here
-          <br><input type="file" id="new_profilePic" accept="image/*"><br>
+          Choose a chatroom:<br>
+          <input type="text" id="chatroom_id" placeholder="chatroom id" autocomplete="off"/>
+          <buttonid="btn_newChatroom" onclick="btn_newChatroom()">Go</button>
+        </form>
+        <form action="">
+        You can choose a new peofile picture here<br>
+          <input type="file" id="new_profilePic" accept="image/*"><br>
           <button>Submit</button>
         </form>
       </div>
