@@ -154,7 +154,7 @@ io.on('connection', function(socket){
 
 					socket.user_name = user_name;
 	  					//clients.push(socket);
-	  					addToChatroom(user_name, socket, chatroom_id);
+	  					addToChatroom(user_name, socket.id, chatroom_id);
 	  				io.emit('command message', (user_name+' has connected'));
 					console.log(user_name+" has connected");
 				}
@@ -327,7 +327,7 @@ function searchUser(user_name, user_password) {
 function addToChatroom(user_name, socket_id, chatroomID) {
 	console.log(socket_id)
 	try {
-   		mongodb.collection("chatroom").insertOne({name : user_name, chatroom_id : chatroomID}) //  socket : socket_id
+   		mongodb.collection("chatroom").insertOne({name : user_name, socket : socket_id, chatroom_id : chatroomID}) 
 	} catch (e) {
    		print (e);
 	};
