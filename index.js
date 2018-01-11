@@ -27,8 +27,8 @@ var mongodb;														// used as a global variable to hold link to mongoDB c
 
 // security setup
 function requireHTTPS(req, res, next) {
-if (req.headers && req.headers.$wssp === "80") {
-	return res.redirect('https://' + req.get('host') + req.url);
+	if (req.headers && req.headers.$wssp === "80") {
+		return res.redirect('https://' + req.get('host') + req.url);
 	}
 	next();
 }
@@ -77,7 +77,6 @@ io.on('connection', function(socket){
   	socket.on('user connected', function(msg){
   		socket.user_name = msg;
 	  		//clients.push(socket);
-	  		addToChatroom(msg, chatroom_id);
   		io.emit('command message', (msg+' has connected'));
 		console.log(msg+" has connected");
   	});
@@ -339,11 +338,14 @@ function searchUser(user_name, user_password) {
 
 // adds a user into a chatroom
 function addToChatroom(user_name, socket_id, chatroomID) {
-	console.log(socket_id)
 	try {
-   		mongodb.collection("chatroom").insertOne({name : user_name, socket : socket_id, chatroom_id : chatroomID}) 
-	} catch (e) {
-   		print (e);
+   		mongodb.collection("chatroom").insertOne({
+   			name : user_name, 
+   			socket : socket_id, 
+   			chatroom_id : chatroomID
+   		}) 
+	} catch(e) {
+   		print(e);
 	};
 }
 
