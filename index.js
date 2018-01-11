@@ -154,7 +154,7 @@ io.on('connection', function(socket){
 
 					socket.user_name = user_name;
 	  					//clients.push(socket);
-	  					addToChatroom(user_name, chatroom_id);
+	  					addToChatroom(user_name, socket, chatroom_id);
 	  				io.emit('command message', (user_name+' has connected'));
 					console.log(user_name+" has connected");
 				}
