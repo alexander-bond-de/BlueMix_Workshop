@@ -125,10 +125,12 @@ io.on('connection', function(socket){
 							}
 						);
 					}
+
+					io.sockets.connected[socket.id].emit('new chatroom', chatroomID);
 				});
 			}
 		});
-  	}
+  	});
 
   	// conform a user exisits within the database, then add them to chatroom
   	socket.on('confirm details', function(user_name, user_password){
