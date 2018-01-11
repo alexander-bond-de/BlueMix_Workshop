@@ -156,7 +156,7 @@
         currentChatroom = newChatroom;
         $('#chatroom_id').text("");
         $("#messages").empty();
-        var html = "<li><div class=\"messageInfo\">Welcome to chatroom:"+newChatroom+"!</div>"
+        var html = "<li><div class=\"messageInfo\">Welcome to chatroom "+newChatroom+"!</div>"
         $('#messages').append(html);
         toggleMenu();
       });
@@ -292,8 +292,9 @@
 
       <div id="detailsForm" style="display : none;">
         <h2>Welcome!</h2>
+        Choose a chatroom:
+        <button id="btn_newChatroom" onclick="btn_newChatroom()">Go</button><br>
         <form action="">
-          Choose a chatroom:<br>
           <input type="text" id="chatroom_id" placeholder="chatroom id" autocomplete="off"/>
         </form>
         <button id="btn_newChatroom" onclick="btn_newChatroom()">Go</button>
