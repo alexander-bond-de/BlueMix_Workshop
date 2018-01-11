@@ -125,6 +125,8 @@ io.on('connection', function(socket){
 							}
 						);
 					}
+
+					io.sockets.connected[socket.id].emit('new chatroom', chatroomID);
 				});
 			}
 		});

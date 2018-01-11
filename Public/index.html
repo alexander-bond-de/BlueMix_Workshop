@@ -147,6 +147,11 @@
         scrollDown();
       });
 
+      // when receiving a new chatroom, set as current chatroom
+      socket.on('new chatroom', function(newChatroom){
+        currentChatroom = newChatroom;
+      });
+
 
     });
 
