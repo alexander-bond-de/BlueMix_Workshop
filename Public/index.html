@@ -17,11 +17,11 @@
   <script src='/socket.io/socket.io.js'></script>
   <script>
 
-    var socket = io.connect();  // socket connection to the server
-    var displayMenu = false;    // keeps track of menu slide 
-    var loggedIn  = false;
+    var socket          = io.connect();   // socket connection to the server
+    var displayMenu     = false;          // keeps track of menu slide 
+    var loggedIn        = false;
     var currentUsername;
-    var currentChatroom;
+    var currentChatroom = 0;
 
     // get username from incoming user
     function startup() {
@@ -165,6 +165,11 @@
     function btn_newChatroom() {
       var newChatroom = $("chatroom_id").val();
       console.log(newChatroom);
+
+      if (newChatroom != null)
+        currentChatroom = newChatroom;
+      else if (currentChatroom == 0)
+        currentChatroom = 1;
     };
 
     function scrollDown() {
@@ -195,9 +200,9 @@
 
     function setProfilePicture() {
       var input = document.getElementById('new_profilePic');
+      var src = null;
       if (input.files && input.files[0]) {
         var fileReader= new FileReader();
-        var src;
         fileReader.onload = function(e) {
           $("#profilePicture").attr("src", e.target.result);
           $("#profilePicture").width(50);
