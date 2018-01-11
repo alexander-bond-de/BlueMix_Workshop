@@ -197,8 +197,8 @@ io.on('connection', function(socket){
 				// Command to list current users in chatroom
 
 				console.log("\\list used by "+socket.user_name);
-				
-				var query = {chatroom_id : chatroom_id};
+
+				var query = {chatroom_id : chatroomID};
 				var cursorArray = mongodb.collection("chatroom").find(query).toArray(function(err, result) {
 					if (err) throw err;
 
@@ -238,11 +238,11 @@ io.on('connection', function(socket){
 	      		var time = d.getHours()+":"+(d.getMinutes()<10?("0"+d.getMinutes()):d.getMinutes());
 
 				// cycle through current clients in chatroom
-				var clients = getChatroom(chatroom_id);
+				var clients = getChatroom(chatroomID);
 				for (var p = 0; (p < clients.length && !foundUser); p++)
-				if (receiver === clients[p].user_name) {
+				if (receiver === clients[p].name) {
 					io.sockets.connected[socket.id].emit('secret message', saveMessage, messageTxt, time);
-					io.sockets.connected[clients[p].id].emit('secret message', sendMessage, messageTxt, time);
+					io.sockets.connected[clients[p].socket].emit('secret message', sendMessage, messageTxt, time);
 					foundUser = true;
 				}
 				if (!foundUser)
