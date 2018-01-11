@@ -238,15 +238,25 @@ io.on('connection', function(socket){
 	      		var time = d.getHours()+":"+(d.getMinutes()<10?("0"+d.getMinutes()):d.getMinutes());
 
 				// cycle through current clients in chatroom
-				var clients = getChatroom(chatroomID);
-				for (var p = 0; (p < clients.length && !foundUser); p++)
-				if (receiver === clients[p].name) {
-					io.sockets.connected[socket.id].emit('secret message', saveMessage, messageTxt, time);
-					io.sockets.connected[clients[p].socket].emit('secret message', sendMessage, messageTxt, time);
-					foundUser = true;
-				}
-				if (!foundUser)
-					io.sockets.connected[socket.id].emit('command message', "! "+receiver+" is not in the chatroom!");
+
+				var query = {chatroom_id : chatroomID};
+				var cursorArray = mongodb.collection("chatroom").find(query).toArray(function(err, result) {
+					if (err) throw err;
+
+					console.log(result);
+					if(result.length > 0) {
+						for (var p = 0; (p < result.length && !foundUser); p++)
+						if (receiver === result[p].name) {
+							io.sockets.connected[socket.id].emit('secret message', saveMessage, messageTxt, time);
+							io.sockets.connected[result[p].socket].emit('secret message', sendMessage, messageTxt, time);
+							foundUser = true;
+						}
+						if (!foundUser)
+							io.sockets.connected[socket.id].emit('command message', "! "+receiver+" is not in the chatroom!");
+					}
+				});
+
+				
 
 				break;
 			}
@@ -357,7 +367,7 @@ function removeFromChatroom(user_name) {
 function getChatroom(chatroomID) {
 	var query = {chatroom_id : chatroomID};
 
-	var cursorArray = mongodb.collection("chatroom").find({}).toArray(function(err, result) {
+	var cursorArray = mongodb.collection("chatroom").find(query).toArray(function(err, result) {
 		if (err) throw err;
 
 		console.log(result);
